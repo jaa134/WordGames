@@ -5,6 +5,7 @@ import Drawer from '@mui/material/Drawer';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import { paths } from '../../constants';
 import defineBlock from '../../utils/defineBlock';
@@ -171,7 +172,9 @@ const AppDrawer = () => {
       />
       <Box sx={{ overflow: 'auto' }}>
         {filteredCategories.length === 0 && (
-          <div>No items</div>
+          <Typography variant="body1" gutterBottom component="div" sx={{ p: 2, mt: 0.5 }}>
+            No items found
+          </Typography>
         )}
         {filteredCategories.map((category, i) => (
           <Fragment key={category.type}>
