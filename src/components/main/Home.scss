@@ -1,6 +1,15 @@
 .Home {
   &__header-box {
-    margin: 0 0 3rem 0;
+    padding: 3rem 5%;
+    background-color: #378FE7;
+    color: #ffffff;
+  }
+  &__logo {
+    display: inline-flex;
+    align-items: center;
+  }
+  &__icon {
+    margin-right: 1.5rem;
   }
   &__subheader {
     max-width: 55rem;
@@ -18,8 +27,5 @@
   }
   &__feature-name {
     font-weight: 300 !important;
-  }
-  .PageTitle {
-    margin-top: 3rem;
   }
 }

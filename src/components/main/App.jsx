@@ -5,7 +5,6 @@ import defineBlock from '../../utils/defineBlock';
 import AppToolbar from './AppToolbar';
 import AppDrawer from './AppDrawer';
 import AppNavRoutes from './AppNavRoutes';
-import './App.scss';
 
 export const bem = defineBlock('App');
 
