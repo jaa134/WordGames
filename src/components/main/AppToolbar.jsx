@@ -17,11 +17,11 @@ const AppToolbar = () => (
     sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
   >
     <Toolbar>
-      <div className={bem('button')}>
-        <Link
-          className={bem('link')}
-          to={paths.HOME}
-        >
+      <Link
+        className={bem('link')}
+        to={paths.HOME}
+      >
+        <div className={bem('link-content')}>
           <img
             className={bem('icon')}
             src={logoIconSrc}
@@ -33,8 +33,8 @@ const AppToolbar = () => (
             alt="Game Break Text"
             height="40"
           />
-        </Link>
-      </div>
+        </div>
+      </Link>
     </Toolbar>
   </AppBar>
 );
