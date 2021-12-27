@@ -35,9 +35,11 @@ const AppNavList = ({
     >
       {entries.map((entry) => (
         <ListItem key={entry.name} button component={Link} to={entry.href}>
-          <ListItemIcon>
-            {entry.icon}
-          </ListItemIcon>
+          {entry.icon && (
+            <ListItemIcon>
+              {entry.icon}
+            </ListItemIcon>
+          )}
           <ListItemText primary={entry.name} />
         </ListItem>
       ))}
@@ -51,7 +53,7 @@ AppNavList.propTypes = {
   entries: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     href: PropTypes.string.isRequired,
-    icon: PropTypes.node.isRequired
+    icon: PropTypes.node
   })).isRequired
 };
 

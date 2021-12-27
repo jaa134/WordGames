@@ -1,8 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
-import Typography from '@mui/material/Typography';
 import Toolbar from '@mui/material/Toolbar';
-import logoSrc from '../../assets/images/logo.svg';
+import { paths } from '../../constants';
 import defineBlock from '../../utils/defineBlock';
 import './AppToolbar.scss';
 
@@ -15,19 +15,12 @@ const AppToolbar = () => (
     sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
   >
     <Toolbar>
-      <img
-        className={bem('logo')}
-        src={logoSrc}
-        alt="logo"
-        height="80"
-      />
-      <Typography
-        variant="h5"
-        noWrap
-        component="div"
+      <Link
+        className={bem('link')}
+        to={paths.HOME}
       >
-        Word Games Solver
-      </Typography>
+        Game Breaker
+      </Link>
     </Toolbar>
   </AppBar>
 );
