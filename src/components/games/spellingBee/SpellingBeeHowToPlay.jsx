@@ -27,12 +27,12 @@ const SpellingBeeHowToPlay = () => (
               the letters to form words consisting of four or more letters.
               However, any words proposed by the player must include the
               letter at the center of the honeycomb. Scoring points leads
-              to progressively higher praise for the player's effort, such as
-              "Solid", "Amazing", and "Genius". Each puzzle is guaranteed to
-              have at least one pangram, which award the player the largest
-              number of points when found. If the player finds all of
-              the possible words in a given puzzle, they achieve the title
-              of "Queen Bee".
+              to progressively higher praise for the player&apos;s effort,
+              such as &quot;Solid&quot;, &quot;Amazing&quot;, and &quot;
+              Genius&quot;. Each puzzle is guaranteed to have at least one
+              pangram, which award the player the largest number of points
+              when found. If the player finds all of the possible words in
+              a given puzzle, they achieve the title of &quot;Queen Bee&quot;.
             </Typography>
           </div>
         </Paper>

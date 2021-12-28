@@ -3,7 +3,6 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
 import { Divider } from '@mui/material';
-import TextField from '@mui/material/TextField';
 import defineBlock from '../../../utils/defineBlock';
 import PageBase from '../../common/PageBase';
 import PageLoading from '../../common/PageLoading';
@@ -11,42 +10,14 @@ import PageTitle from '../../common/PageTitle';
 import SpellingBeeGameEngine from './SpellingBeeGameEngine';
 import SpellingBeeHowToPlay from './SpellingBeeHowToPlay';
 import SpellingBeeResults from './SpellingBeeResults';
+import {
+  DEFAULT_CHAR,
+  RequiredLetterInput,
+  OptionalLetterInput
+} from './SpellingBeeLetterInput';
 import './SpellingBeePage.scss';
 
 const bem = defineBlock('SpellingBeePage');
-
-const DEFAULT_CHAR = '?';
-const onlyChars = /[^a-z]/g;
-const normalizeValue = (event) => event.target.value.toLowerCase().replace(onlyChars, '').slice(-1);
-const getUpdatedLetters = (letters, event, i) => {
-  const result = [...letters];
-  result[i] = normalizeValue(event) || DEFAULT_CHAR;
-  return result;
-};
-
-const OptionalLetterInput = ({ i, optionalLetters, setOptionalLetters }) => (
-  <TextField
-    id={bem(`optonalLetter${i}`)}
-    value={optionalLetters[i]}
-    variant="filled"
-    hiddenLabel
-    sx={{ input: { textAlign: 'center', backgroundColor: '#f2f2f2' } }}
-    onFocus={(event) => { event.target.select(); }}
-    onChange={(event) => { setOptionalLetters(getUpdatedLetters(optionalLetters, event, i)); }}
-  />
-);
-
-const RequiredLetterInput = ({ requiredLetter, setRequiredLetter }) => (
-  <TextField
-    id={bem('requiredLetter')}
-    value={requiredLetter}
-    variant="filled"
-    hiddenLabel
-    sx={{ input: { textAlign: 'center', backgroundColor: '#ffdf6b' } }}
-    onFocus={(event) => { event.target.select(); }}
-    onChange={(event) => { setRequiredLetter(normalizeValue(event)); }}
-  />
-);
 
 const SpellingBeePage = () => {
   const [loading, setLoading] = useState(false);
@@ -159,7 +130,7 @@ const SpellingBeePage = () => {
       {results && (
         <>
           <Divider />
-          <SpellingBeeResults results={results} />
+          <SpellingBeeResults {...results} />
         </>
       )}
     </PageBase>

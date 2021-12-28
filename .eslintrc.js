@@ -26,6 +26,7 @@ module.exports = {
     'no-plusplus': 'off',
     'no-underscore-dangle': 'off',
     'import/prefer-default-export': 'off',
+    'react/no-array-index-key': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/function-component-definition': ['error', {
       namedComponents: 'arrow-function',
