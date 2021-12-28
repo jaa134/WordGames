@@ -1,9 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 import { paths } from '../../constants';
 import ConstructionPage from '../common/ConstructionPage';
+import PageLoading from '../common/PageLoading';
 
 const Home = lazy(() => import(
   /* webpackChunkName: "Home", webpackPrefetch: true */
@@ -16,15 +15,7 @@ const SpellingBee = lazy(() => import(
 ));
 
 const AppNavRoutes = () => (
-  <Suspense fallback={(
-    <Backdrop
-      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      open
-    >
-      <CircularProgress color="inherit" />
-    </Backdrop>
-  )}
-  >
+  <Suspense fallback={<PageLoading />}>
     <Routes>
       <Route path={paths.HOME} element={<Home />} exact />
       <Route path={paths.HANGMAN} element={<ConstructionPage />} exact />

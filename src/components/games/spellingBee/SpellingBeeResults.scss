@@ -1,0 +1,51 @@
+.SpellingBeeResults {
+  padding: 2rem 0;
+  &__letters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  &__honeycomb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    width: 5rem;
+    height: 5rem;
+    margin: 0 1rem 1rem 0;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    background-color: rgba(0, 0, 0, 0.66);
+    &--required {
+      background-color: #ffdf6b;
+    }
+  }
+  &__honeycomb-interior {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    background-color: #f2f2f2;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  &__no-results {
+    margin: 2rem 0;
+  }
+  &__view-by  {
+    margin: 1rem 0 1.5rem 0;
+  }
+  &__list {
+    padding: 1.5rem 2rem;
+    .MuiChip-root {
+      margin: 0 0.5rem 0.5rem 0;
+      height: 2.5rem;
+      border-radius: 1.25rem;
+    }
+    .MuiChip-label {
+      padding: 0 1.5rem;
+      font-size: 1rem;
+    }
+  }
+}
