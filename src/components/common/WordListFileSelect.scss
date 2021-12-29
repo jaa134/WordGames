@@ -1,0 +1,10 @@
+.WordListFileSelect {
+  &__size-name {
+    display: inline-block;
+    min-width: 4.25rem;
+  }
+  &__size-details {
+    font-style: italic;
+    color: #999999; 
+  }
+}

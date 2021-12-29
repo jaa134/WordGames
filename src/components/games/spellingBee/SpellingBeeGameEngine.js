@@ -1,6 +1,9 @@
 const MIN_WORD_LENGTH = 4;
 
 const SpellingBeeGameEngine = {
+  isGameValid: (defaultChar, requiredChar, optionalChars) => (
+    requiredChar && optionalChars.every((letter) => !!letter && letter !== defaultChar)
+  ),
   getMatches: (words, requiredChar, optionalChars) => {
     const allChars = requiredChar + optionalChars.join('');
     const regex = new RegExp(`^[${allChars}]*${requiredChar}[${allChars}]*$`, 'i');

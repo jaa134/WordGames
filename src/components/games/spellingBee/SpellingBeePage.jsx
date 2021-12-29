@@ -3,14 +3,11 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 import defineBlock from '../../../utils/defineBlock';
 import PageBase from '../../common/PageBase';
 import PageLoading from '../../common/PageLoading';
 import PageTitle from '../../common/PageTitle';
+import WordListFileSelect, { listSizes, importWordList } from '../../common/WordListFileSelect';
 import SpellingBeeGameEngine from './SpellingBeeGameEngine';
 import SpellingBeeHowToPlay from './SpellingBeeHowToPlay';
 import SpellingBeeResults from './SpellingBeeResults';
@@ -23,33 +20,17 @@ import './SpellingBeePage.scss';
 
 const bem = defineBlock('SpellingBeePage');
 
-const listSizes = {
-  SMALL: 'Small',
-  MEDIUM: 'Medium',
-  LARGE: 'Large',
-  ALL: 'All'
-};
-
 const SpellingBeePage = () => {
   const [loading, setLoading] = useState(false);
   const [requiredLetter, setRequiredLetter] = useState(DEFAULT_CHAR);
   const [optionalLetters, setOptionalLetters] = useState(Array(6).fill(DEFAULT_CHAR));
   const [listSize, setListSize] = useState(listSizes.SMALL);
   const [results, setResults] = useState(null);
-  const isBoardValid = optionalLetters.every((letter) => !!letter && letter !== DEFAULT_CHAR);
+  const isGameValid = SpellingBeeGameEngine
+    .isGameValid(DEFAULT_CHAR, requiredLetter, optionalLetters);
   const solve = () => {
     setLoading(true);
-    let importPromise = null;
-    if (listSize === listSizes.SMALL) {
-      importPromise = import(/* webpackChunkName: 'wordList_x0' */ '../../../assets/json/wordList_x0.json');
-    } else if (listSize === listSizes.MEDIUM) {
-      importPromise = import(/* webpackChunkName: 'wordList_x1' */ '../../../assets/json/wordList_x1.json');
-    } else if (listSize === listSizes.LARGE) {
-      importPromise = import(/* webpackChunkName: 'wordList_x2' */ '../../../assets/json/wordList_x2.json');
-    } else if (listSize === listSizes.ALL) {
-      importPromise = import(/* webpackChunkName: 'wordList_x3' */ '../../../assets/json/wordList_x3.json');
-    }
-
+    const importPromise = importWordList(listSize);
     if (importPromise) {
       importPromise
         .then(({ default: wordList }) => {
@@ -62,7 +43,6 @@ const SpellingBeePage = () => {
           setLoading(false);
         });
     } else {
-      console.error('List size not recognized');
       setLoading(false);
     }
   };
@@ -142,43 +122,20 @@ const SpellingBeePage = () => {
         </div>
         <div className={bem('spacer')} />
         <div>
-          {!isBoardValid && (
+          {!isGameValid && (
             <Alert className={bem('invalid')} severity="warning">
               <AlertTitle>Invalid game board</AlertTitle>
               Make sure all inputs have values
             </Alert>
           )}
           <div className={bem('inputs')}>
-            <FormControl className={bem('list-select')} variant="filled" sx={{ width: 276 }}>
-              <InputLabel id={bem('list-select-label')}>List size</InputLabel>
-              <Select
-                labelId={bem('list-select-label')}
-                id={bem('list-select-select')}
-                value={listSize}
-                sx={{ backgroundColor: '#ffffff' }}
-                onChange={(event) => { setListSize(event.target.value); }}
-              >
-                <MenuItem value={listSizes.SMALL}>
-                  <span className={bem('size-name')}>{listSizes.SMALL}</span>
-                  <span className={bem('size-details')}>0.1 MB - 10k words</span>
-                </MenuItem>
-                <MenuItem value={listSizes.MEDIUM}>
-                  <span className={bem('size-name')}>{listSizes.MEDIUM}</span>
-                  <span className={bem('size-details')}>0.7 MB - 86k words</span>
-                </MenuItem>
-                <MenuItem value={listSizes.LARGE}>
-                  <span className={bem('size-name')}>{listSizes.LARGE}</span>
-                  <span className={bem('size-details')}>3.4 MB - 274k words</span>
-                </MenuItem>
-                <MenuItem value={listSizes.ALL}>
-                  <span className={bem('size-name')}>{listSizes.ALL}</span>
-                  <span className={bem('size-details')}>4.6 MB - 370k words</span>
-                </MenuItem>
-              </Select>
-            </FormControl>
+            <WordListFileSelect
+              value={listSize}
+              onChange={(event) => { setListSize(event.target.value); }}
+            />
             <Button
               className={bem('solve')}
-              disabled={!isBoardValid}
+              disabled={!isGameValid}
               variant="contained"
               size="large"
               onClick={solve}

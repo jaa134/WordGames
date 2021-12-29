@@ -14,6 +14,11 @@ const SpellingBee = lazy(() => import(
   '../games/spellingBee/SpellingBeePage'
 ));
 
+const WordLadders = lazy(() => import(
+  /* webpackChunkName: "WordLadders" */
+  '../games/wordLadders/WordLaddersPage'
+));
+
 const AppNavRoutes = () => (
   <Suspense fallback={<PageLoading />}>
     <Routes>
@@ -21,7 +26,7 @@ const AppNavRoutes = () => (
       <Route path={paths.HANGMAN} element={<ConstructionPage />} exact />
       <Route path={paths.NYT_SPELLING_BEE} element={<SpellingBee />} exact />
       <Route path={paths.SCRABBLE} element={<ConstructionPage />} exact />
-      <Route path={paths.WORD_LADDERS} element={<ConstructionPage />} exact />
+      <Route path={paths.WORD_LADDERS} element={<WordLadders />} exact />
       <Route path={paths.WORD_SEARCH} element={<ConstructionPage />} exact />
       <Route path={paths.WORDSCAPES} element={<ConstructionPage />} exact />
       <Route path={paths.CHECKERS} element={<ConstructionPage />} exact />

@@ -6,8 +6,8 @@ import defineBlock from '../../../utils/defineBlock';
 const bem = defineBlock('SpellingBeeInput');
 
 export const DEFAULT_CHAR = '?';
-const onlyChars = /[^a-z]/g;
-const normalizeValue = (event) => event.target.value.toLowerCase().replace(onlyChars, '').slice(-1);
+const nonChars = /[^a-z]/g;
+const normalizeValue = (event) => event.target.value.toLowerCase().replace(nonChars, '').slice(-1);
 const getUpdatedLetters = (letters, event, i) => {
   const result = [...letters];
   result[i] = normalizeValue(event) || DEFAULT_CHAR;
