@@ -15,7 +15,7 @@ const infoStyling = {
 const SpellingBeeHowToPlay = () => (
   <div className={bem()}>
     <Grid container spacing={2} alignItems="stretch">
-      <Grid item xs={12} sm={12} md={12} lg={12} xl={6}>
+      <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
         <Paper elevation={0} sx={infoStyling}>
           <div className={bem('content')}>
             <Typography variant="h6" gutterBottom component="div">
@@ -57,6 +57,25 @@ const SpellingBeeHowToPlay = () => (
                   which uses every letter at least once.
                 </li>
               </ul>
+            </Typography>
+          </div>
+        </Paper>
+      </Grid>
+      <Grid item xs={12} sm={12} md={12} lg={12} xl={6}>
+        <Paper elevation={0} sx={infoStyling}>
+          <div className={bem('content')}>
+            <Typography variant="h6" gutterBottom component="div">
+              Solution
+            </Typography>
+            <Typography variant="body1" component="div">
+              Our goal is to maximize the completeness of the result set
+              while minimizing the resource requirments that clients need
+              to download and process larger word lists. By default, we
+              consult a list of more than 10,000+ words to meet these
+              requirments. We then test each word in the list against a
+              specialized regular expression using the game letters. If
+              you think words are missing from the solution, then try using
+              a larger word list!
             </Typography>
           </div>
         </Paper>

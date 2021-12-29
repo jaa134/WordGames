@@ -25,6 +25,7 @@ const views = {
 const SpellingBeeResults = ({
   requiredLetter,
   optionalLetters,
+  listSize,
   matches
 }) => {
   const [viewBy, setViewBy] = useState(views.ALPHA);
@@ -52,7 +53,9 @@ const SpellingBeeResults = ({
   return (
     <div className={bem()}>
       <Typography variant="h4" gutterBottom component="div">
-        Results for
+        {listSize}
+        {' '}
+        list results
       </Typography>
       <div className={bem('letters')}>
         <div className={bem('honeycomb', 'required')}>{requiredLetter}</div>
@@ -104,6 +107,7 @@ const SpellingBeeResults = ({
 SpellingBeeResults.propTypes = {
   requiredLetter: PropTypes.string.isRequired,
   optionalLetters: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  listSize: PropTypes.string.isRequired,
   matches: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 };
 

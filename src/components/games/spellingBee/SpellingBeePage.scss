@@ -9,12 +9,24 @@ $hexagon-size: 7.5rem;
   }
   &__game {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    padding: 3rem 4rem;
+    justify-content: center;
+    padding: 3rem;
     margin-bottom: 3rem;
     border-radius: 0.25rem;
     background-color: #dddddd;
+    @media (max-width: 1300px) {
+      flex-direction: column;
+    }
+  }
+  &__spacer {
+    width: 4rem;
+    height: 1px;
+    @media (max-width: 1300px) {
+      width: 1px;
+      height: 1.5rem;
+    }
   }
   &__grid {
     position: relative;
@@ -22,7 +34,6 @@ $hexagon-size: 7.5rem;
     max-width: $grid-width;
     width: $grid-width;
     height: $grid-height;
-    margin: 0 0 1.5rem;
     .MuiFilledInput {
       &-root {
         &:before, &:after {
@@ -78,8 +89,23 @@ $hexagon-size: 7.5rem;
     height: $hexagon-size;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   }
+  &__inputs {
+    display: flex;
+    align-items: center;
+    .MuiButton-root {
+      margin-left: 1rem;
+    }
+  }
+  &__size-name {
+    display: inline-block;
+    min-width: 4.25rem;
+  }
+  &__size-details {
+    font-style: italic;
+    color: #999999; 
+  }
   &__invalid {
-    margin: 2rem 0 0 0;
-    width: 100%;
+    margin: 0 0 1.5rem 0;
+    width: 350px;
   }
 }
