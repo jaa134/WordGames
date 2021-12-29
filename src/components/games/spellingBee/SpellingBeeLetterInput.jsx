@@ -37,7 +37,7 @@ export const OptionalLetterInput = ({ i, optionalLetters, setOptionalLetters }) 
     value={optionalLetters[i]}
     variant="filled"
     hiddenLabel
-    sx={{ input: { textAlign: 'center', backgroundColor: '#f2f2f2' } }}
+    sx={{ input: { textAlign: 'center', backgroundColor: '#ffffff' } }}
     onFocus={(event) => { event.target.select(); }}
     onChange={(event) => { setOptionalLetters(getUpdatedLetters(optionalLetters, event, i)); }}
   />

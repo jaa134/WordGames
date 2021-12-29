@@ -16,7 +16,7 @@ const WordLaddersExcludedInput = ({
     id={bem()}
     className={bem()}
     label="Excluded words"
-    helperText="Enter 1 word per line"
+    helperText="Enter one word per line"
     value={value}
     multiline
     rows={5}
@@ -24,9 +24,9 @@ const WordLaddersExcludedInput = ({
     sx={{
       width: 382,
       '& .MuiFilledInput-root': {
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#ffffff',
         '&:hover, &.Mui-focused': {
-          backgroundColor: '#f2f2f2'
+          backgroundColor: '#ffffff'
         }
       }
     }}

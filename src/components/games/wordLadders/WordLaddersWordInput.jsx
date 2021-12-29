@@ -20,7 +20,7 @@ const WordLaddersWordInput = ({
     value={value}
     type="search"
     variant="filled"
-    sx={{ width: 382, input: { backgroundColor: '#f2f2f2' } }}
+    sx={{ width: 382, input: { backgroundColor: '#ffffff' } }}
     onChange={(event) => { setValue(normalizeValue(event)); }}
   />
 );
