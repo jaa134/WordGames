@@ -9,6 +9,11 @@ const Home = lazy(() => import(
   './Home'
 ));
 
+const Hangman = lazy(() => import(
+  /* webpackChunkName: "Hangman" */
+  '../games/hangman/HangmanPage'
+));
+
 const SpellingBee = lazy(() => import(
   /* webpackChunkName: "SpellingBee" */
   '../games/spellingBee/SpellingBeePage'
@@ -23,7 +28,7 @@ const AppNavRoutes = () => (
   <Suspense fallback={<PageLoading />}>
     <Routes>
       <Route path={paths.HOME} element={<Home />} exact />
-      <Route path={paths.HANGMAN} element={<ConstructionPage />} exact />
+      <Route path={paths.HANGMAN} element={<Hangman />} exact />
       <Route path={paths.NYT_SPELLING_BEE} element={<SpellingBee />} exact />
       <Route path={paths.SCRABBLE} element={<ConstructionPage />} exact />
       <Route path={paths.WORD_LADDERS} element={<WordLadders />} exact />
