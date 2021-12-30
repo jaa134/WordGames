@@ -16,7 +16,21 @@ const bem = defineBlock('HangmanPage');
 
 const nonPuzzleChars = /[^a-z_]/g;
 const nonLetterChars = /[^a-z]/g;
-const normalizeValue = (event, charsToRemove) => event.target.value.toLowerCase().replace(charsToRemove, '');
+const normalizeValue = (event, charsToRemove, allowDuplicates) => {
+  let result = event.target.value.toLowerCase().replace(charsToRemove, '');
+  if (!allowDuplicates) {
+    const usedChars = {};
+    result = result
+      .split('')
+      .filter((char) => {
+        const isUsed = char in usedChars;
+        usedChars[char] = true;
+        return !isUsed;
+      })
+      .join('');
+  }
+  return result;
+};
 
 const HangmanPage = () => {
   const [loading, setLoading] = useState(false);
@@ -62,20 +76,26 @@ const HangmanPage = () => {
             label="Puzzle"
             helperText="Enter an underscore for unknown letters"
             value={puzzle}
-            type="search"
             variant="filled"
-            sx={{ width: 382, input: { backgroundColor: '#ffffff' } }}
-            onChange={(event) => { setPuzzle(normalizeValue(event, nonPuzzleChars)); }}
+            type="search"
+            inputProps={{ spellCheck: 'false' }}
+            sx={{ width: 386, input: { backgroundColor: '#ffffff' } }}
+            onChange={(event) => {
+              setPuzzle(normalizeValue(event, nonPuzzleChars, true));
+            }}
           />
           <TextField
             id={bem('guessed')}
             className={bem('guessed')}
             label="Guessed letters"
             value={guessedLetters}
-            type="search"
             variant="filled"
-            sx={{ width: 382, input: { backgroundColor: '#ffffff' } }}
-            onChange={(event) => { setGuessedLetters(normalizeValue(event, nonLetterChars)); }}
+            type="search"
+            inputProps={{ spellCheck: 'false' }}
+            sx={{ width: 386, input: { backgroundColor: '#ffffff' } }}
+            onChange={(event) => {
+              setGuessedLetters(normalizeValue(event, nonLetterChars, false));
+            }}
           />
         </div>
         <div className={bem('spacer')} />
