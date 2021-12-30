@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
@@ -28,24 +28,34 @@ const SpellingBeePage = () => {
   const [results, setResults] = useState(null);
   const isGameValid = SpellingBeeGameEngine
     .isGameValid(DEFAULT_CHAR, requiredLetter, optionalLetters);
-  const solve = () => {
-    setLoading(true);
-    const importPromise = importWordList(listSize);
-    if (importPromise) {
-      importPromise
-        .then(({ default: wordList }) => {
-          setResults({
-            requiredLetter,
-            optionalLetters,
-            listSize,
-            matches: SpellingBeeGameEngine.getMatches(wordList, requiredLetter, optionalLetters)
-          });
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
+  const initiateSolve = () => { setLoading(true); };
+  useEffect(() => {
+    let result = null;
+    if (loading) {
+      let timeout = null;
+      let isSubscribed = true;
+      importWordList(listSize).then(({ default: wordList }) => {
+        timeout = setTimeout(() => {
+          const matches = SpellingBeeGameEngine
+            .getMatches(wordList, requiredLetter, optionalLetters);
+          if (isSubscribed) {
+            setResults({
+              requiredLetter,
+              optionalLetters,
+              listSize,
+              matches
+            });
+            setLoading(false);
+          }
+        }, 250);
+      });
+      result = () => {
+        clearTimeout(timeout);
+        isSubscribed = false;
+      };
     }
-  };
+    return result;
+  }, [loading]);
   return (
     <PageBase className={bem()}>
       <PageTitle text="NYT Spelling Bee" />
@@ -138,7 +148,7 @@ const SpellingBeePage = () => {
               disabled={!isGameValid}
               variant="contained"
               size="large"
-              onClick={solve}
+              onClick={initiateSolve}
             >
               Solve
             </Button>

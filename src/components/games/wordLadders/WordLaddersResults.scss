@@ -1,0 +1,75 @@
+.WordLaddersResults {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  padding: 2rem 0;
+  &__layout {
+    display: flex;
+    flex-direction: row;
+    padding: 1.5rem 0;
+    @media (max-width: 1400px) {
+      flex-direction: column;
+    }
+  }
+  &__words {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    min-width: 400px;
+  }
+  &__solution {
+    flex: 1;
+    padding: 0 2rem;
+    margin: 0 0 0 2rem;
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+    @media (max-width: 1400px) {
+      padding: 3rem 0;
+      margin: 3rem 0;
+      border-left: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    .MuiDivider-root {
+      margin: 1.375rem 0 1rem 0;
+    }
+  }
+  &__arrows {
+    padding: 0.625rem 0 0.5rem;
+  }
+  &__excluded-words {
+    margin-top: 2.75rem;
+  }
+  &__info {
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+  &__stats {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    .MuiTextField-root {
+      flex: 1 1 175px;
+      max-width: 200px;
+      margin: 0 0 1rem 0;
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+  }
+  &__list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    .MuiChip-root {
+      margin: 0 0.5rem 0.5rem 0;
+      height: 2.5rem;
+      border-radius: 1.25rem;
+    }
+    .MuiChip-label {
+      padding: 0 1.5rem;
+      font-size: 1rem;
+    }
+    .MuiSvgIcon-root {
+      margin: 0 0.5rem 0.5rem 0;
+    }
+  }
+}

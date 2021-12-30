@@ -22,17 +22,17 @@ const WordLaddersHowToPlay = () => (
               Description
             </Typography>
             <Typography variant="body1" gutterBottom component="div">
-              The game presents players with a grid of 7 letters arrayed
-              in a honeycomb structure. The player scores points by using
-              the letters to form words consisting of four or more letters.
-              However, any words proposed by the player must include the
-              letter at the center of the honeycomb. Scoring points leads
-              to progressively higher praise for the player&apos;s effort,
-              such as &quot;Solid&quot;, &quot;Amazing&quot;, and &quot;
-              Genius&quot;. Each puzzle is guaranteed to have at least one
-              pangram, which award the player the largest number of points
-              when found. If the player finds all of the possible words in
-              a given puzzle, they achieve the title of &quot;Queen Bee&quot;.
+              A classic word game that often appears in newspapers and
+              other forms of media. Word ladders are puzzles in which
+              the player must determine a transformation sequence from
+              a start word to an end word. The goal is to find the
+              shortest possbile sequence of words that each differ from
+              the previous word by replacing a single letter to make a
+              new word. Players will first need to choose a word to start
+              with. For example, start with CAT. Replacing one letter at a
+              time, the ladder for cat can become: cat – cot – dot – dog.
+              This is a word ladder that starts at &quot;cat&quot; and
+              ends at &quot;dog.&quot;
             </Typography>
           </div>
         </Paper>
@@ -45,16 +45,18 @@ const WordLaddersHowToPlay = () => (
             </Typography>
             <Typography variant="body1" component="div">
               <ul>
-                <li>Words must include the center letter.</li>
-                <li>Words must contain at least four letters.</li>
-                <li>Letters can be used more than once.</li>
+                <li>Players get a starting word and an ending word.</li>
+                <li>Starting and ending words must be the same length.</li>
                 <li>
-                  The word list does not include words that are
-                  offensive, obscure, hyphenated or proper nouns.
+                  Players change one letter at a time, attempting to move
+                  from the starting word to the ending word.
                 </li>
                 <li>
-                  Each puzzle includes at least one “pangram,”
-                  which uses every letter at least once.
+                  Each intermediate step must be a valid word, and no
+                  proper nouns allowed!
+                </li>
+                <li>
+                  Excluded words will not be considered for the solution.
                 </li>
               </ul>
             </Typography>
@@ -68,14 +70,14 @@ const WordLaddersHowToPlay = () => (
               Solution
             </Typography>
             <Typography variant="body1" component="div">
-              Our goal is to maximize the completeness of the result set
-              while minimizing the resource requirments that clients need
-              to download and process larger word lists. By default, we
-              consult a list of more than 10,000+ words to meet these
-              requirments. We then test each word in the list against a
-              specialized regular expression using the game letters. If
-              you think words are missing from the solution, then try using
-              a larger word list!
+              Our goal is to minimize the number of steps or transformations
+              needed to reach the end word. We can accomplish this task by
+              implementing a breadth first search (BFS) algorithm that searches
+              for a shortest path by using the start word as the root to craft
+              a graph in which all adjacent nodes only differ by a single letter.
+              BFS will gaurantee that our solution is optimal because as soon as
+              we encounter the desired word, we know that the level its found at
+              is the length of the shortest trandformation sequence.
             </Typography>
           </div>
         </Paper>

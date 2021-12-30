@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import defineBlock from '../../../utils/defineBlock';
@@ -12,6 +13,7 @@ import WordListFileSelect, { listSizes, importWordList } from '../../common/Word
 import WordLaddersHowToPlay from './WordLaddersHowToPlay';
 import WordLaddersWordInput from './WordLaddersWordInput';
 import WordLaddersExcludedInput from './WordLaddersExcludedInput';
+import WordLaddersResults from './WordLaddersResults';
 import WordLaddersGameEngine from './WordLaddersGameEngine';
 import './WordLaddersPage.scss';
 
@@ -23,20 +25,37 @@ const WordLaddersPage = () => {
   const [word2, setWord2] = useState('');
   const [excludedWords, setExcludedWords] = useState('');
   const [listSize, setListSize] = useState(listSizes.SMALL);
+  const [results, setResults] = useState(null);
   const isGameValid = WordLaddersGameEngine.isValidGame(word1, word2);
-  const solve = () => {
-    setLoading(true);
-    const importPromise = importWordList(listSize);
-    if (importPromise) {
-      importPromise
-        .then(({ default: wordList }) => {
-          // TODO set results
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
+  const initiateSolve = () => { setLoading(true); };
+  useEffect(() => {
+    let result = null;
+    if (loading) {
+      let timeout = null;
+      let isSubscribed = true;
+      importWordList(listSize).then(({ default: wordList }) => {
+        timeout = setTimeout(() => {
+          const excludedArr = excludedWords.split('\n').filter((word) => !!word);
+          const solution = WordLaddersGameEngine.getSolution(wordList, word1, word2, excludedArr);
+          if (isSubscribed) {
+            setResults({
+              word1,
+              word2,
+              excludedWords,
+              listSize,
+              ...solution
+            });
+            setLoading(false);
+          }
+        }, 250);
+      });
+      result = () => {
+        clearTimeout(timeout);
+        isSubscribed = false;
+      };
     }
-  };
+    return result;
+  }, [loading]);
   return (
     <PageBase className={bem()}>
       <PageTitle text="Word Ladders" />
@@ -81,13 +100,19 @@ const WordLaddersPage = () => {
               disabled={!isGameValid}
               variant="contained"
               size="large"
-              onClick={solve}
+              onClick={initiateSolve}
             >
               Solve
             </Button>
           </div>
         </div>
       </div>
+      {results && (
+        <>
+          <Divider />
+          <WordLaddersResults {...results} />
+        </>
+      )}
     </PageBase>
   );
 };
