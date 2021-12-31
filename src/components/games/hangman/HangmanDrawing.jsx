@@ -103,7 +103,7 @@ const DEFUALT_COLOR = '#bbbbbb';
 const FILLED_COLOR = '#000000';
 
 const HangmanDrawing = ({
-  numIncorrectGuesses,
+  numIncorrectLetters,
   ...svgProps
 }) => (
   <SvgIcon className={bem()} {...svgProps} viewBox="75 30 195 195">
@@ -113,7 +113,7 @@ const HangmanDrawing = ({
           React.cloneElement(el, {
             style: {
               ...standStyle,
-              fill: i < numIncorrectGuesses
+              fill: i < numIncorrectLetters
                 ? FILLED_COLOR
                 : DEFUALT_COLOR
             }
@@ -123,7 +123,7 @@ const HangmanDrawing = ({
           React.cloneElement(el, {
             style: {
               ...bodyStyles,
-              stroke: (standElements.length + bodyElements.length - i) <= numIncorrectGuesses
+              stroke: (standElements.length + bodyElements.length - i) <= numIncorrectLetters
                 ? FILLED_COLOR
                 : DEFUALT_COLOR
             }
@@ -135,7 +135,7 @@ const HangmanDrawing = ({
 );
 
 HangmanDrawing.propTypes = {
-  numIncorrectGuesses: PropTypes.number.isRequired
+  numIncorrectLetters: PropTypes.number.isRequired
 };
 
 export default HangmanDrawing;

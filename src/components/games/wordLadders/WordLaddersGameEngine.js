@@ -9,7 +9,7 @@ const WordLaddersGameEngine = {
       && this.validWordRegex.test(w2)
     );
   },
-  getSolutionFromTree(endWord, wordTree) {
+  __getSolutionFromTree(endWord, wordTree) {
     const result = [];
     let cur = endWord;
     while (cur in wordTree) {
@@ -54,7 +54,7 @@ const WordLaddersGameEngine = {
     return {
       numWordsWithLength,
       numWordsUsed: Object.keys(wordTree).length,
-      solution: this.getSolutionFromTree(endWord, wordTree)
+      solution: this.__getSolutionFromTree(endWord, wordTree)
     };
   }
 };

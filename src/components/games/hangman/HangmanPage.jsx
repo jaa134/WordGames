@@ -10,36 +10,23 @@ import PageTitle from '../../common/PageTitle';
 import WordListFileSelect, { listSizes, importWordList } from '../../common/WordListFileSelect';
 import HangmanHowToPlay from './HangmanHowToPlay';
 import HangmanDrawing from './HangmanDrawing';
+import {
+  isValidGame,
+  normalizePuzzle,
+  normalizeLetters,
+  getSolution
+} from './HangmanGameEngine';
 import './HangmanPage.scss';
 
 const bem = defineBlock('HangmanPage');
 
-const nonPuzzleChars = /[^a-z_]/g;
-const nonLetterChars = /[^a-z]/g;
-const normalizeValue = (event, charsToRemove, allowDuplicates) => {
-  let result = event.target.value.toLowerCase().replace(charsToRemove, '');
-  if (!allowDuplicates) {
-    const usedChars = {};
-    result = result
-      .split('')
-      .filter((char) => {
-        const isUsed = char in usedChars;
-        usedChars[char] = true;
-        return !isUsed;
-      })
-      .join('');
-  }
-  return result;
-};
-
 const HangmanPage = () => {
   const [loading, setLoading] = useState(false);
   const [puzzle, setPuzzle] = useState('');
-  const [guessedLetters, setGuessedLetters] = useState('');
+  const [incorrectLetters, setIncorrectLetters] = useState('');
   const [listSize, setListSize] = useState(listSizes.SMALL);
   const [results, setResults] = useState(null);
-  const isGameValid = puzzle.includes('_');
-  const numIncorrectGuesses = guessedLetters.length;
+  const isGameValid = isValidGame(puzzle, incorrectLetters);
   const initiateSolve = () => { setLoading(true); };
   useEffect(() => {
     let result = null;
@@ -49,6 +36,7 @@ const HangmanPage = () => {
       importWordList(listSize).then(({ default: wordList }) => {
         timeout = setTimeout(() => {
           // TODO: solve
+          console.table(getSolution(wordList, puzzle, incorrectLetters));
           if (isSubscribed) {
             // TODO: set results
             setLoading(false);
@@ -69,7 +57,7 @@ const HangmanPage = () => {
       <HangmanHowToPlay />
       <div className={bem('game')}>
         <div className={bem('board')}>
-          <HangmanDrawing numIncorrectGuesses={numIncorrectGuesses} />
+          <HangmanDrawing numIncorrectLetters={incorrectLetters.length} />
           <TextField
             id={bem('puzzle')}
             className={bem('puzzle')}
@@ -80,30 +68,26 @@ const HangmanPage = () => {
             type="search"
             inputProps={{ spellCheck: 'false' }}
             sx={{ width: 386, input: { backgroundColor: '#ffffff' } }}
-            onChange={(event) => {
-              setPuzzle(normalizeValue(event, nonPuzzleChars, true));
-            }}
+            onChange={(event) => { setPuzzle(normalizePuzzle(event.target.value)); }}
           />
           <TextField
-            id={bem('guessed')}
-            className={bem('guessed')}
-            label="Guessed letters"
-            value={guessedLetters}
+            id={bem('incorrect')}
+            className={bem('incorrect')}
+            label="Incorrect letters"
+            value={incorrectLetters}
             variant="filled"
             type="search"
             inputProps={{ spellCheck: 'false' }}
             sx={{ width: 386, input: { backgroundColor: '#ffffff' } }}
-            onChange={(event) => {
-              setGuessedLetters(normalizeValue(event, nonLetterChars, false));
-            }}
+            onChange={(event) => { setIncorrectLetters(normalizeLetters(event.target.value)); }}
           />
         </div>
         <div className={bem('spacer')} />
         <div>
           {!isGameValid && (
             <Alert className={bem('invalid')} severity="warning">
-              <AlertTitle>Invalid word values</AlertTitle>
-              Ensure both word values abide by game rules
+              <AlertTitle>Invalid puzzle</AlertTitle>
+              Ensure that the game values are valid
             </Alert>
           )}
           <div className={bem('inputs')}>

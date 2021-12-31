@@ -73,14 +73,7 @@ const HangmanHowToPlay = () => (
               Solution
             </Typography>
             <Typography variant="body1" component="div">
-              Our goal is to minimize the number of steps or transformations
-              needed to reach the end word. We can accomplish this task by
-              implementing a breadth first search (BFS) algorithm that searches
-              for a shortest path by using the start word as the root to craft
-              a graph in which all adjacent nodes only differ by a single letter.
-              BFS will gaurantee that our solution is optimal because as soon as
-              we encounter the desired word, we know that the level its found at
-              is the length of the shortest trandformation sequence.
+              TODO
             </Typography>
           </div>
         </Paper>
