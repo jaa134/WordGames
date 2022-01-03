@@ -44,7 +44,7 @@ const HangmanPage = () => {
               incorrectLetters,
               listSize,
               ...solution
-            })
+            });
             setLoading(false);
           }
         }, 250);
@@ -73,7 +73,7 @@ const HangmanPage = () => {
             variant="filled"
             type="search"
             inputProps={{ spellCheck: 'false' }}
-            sx={{ width: 386, input: { backgroundColor: '#ffffff' } }}
+            sx={{ width: 382, input: { backgroundColor: '#ffffff' } }}
             onChange={(event) => { setPuzzle(normalizePuzzle(event.target.value)); }}
           />
           <TextField
@@ -84,7 +84,7 @@ const HangmanPage = () => {
             variant="filled"
             type="search"
             inputProps={{ spellCheck: 'false' }}
-            sx={{ width: 386, input: { backgroundColor: '#ffffff' } }}
+            sx={{ width: 382, input: { backgroundColor: '#ffffff' } }}
             onChange={(event) => { setIncorrectLetters(normalizeLetters(event.target.value)); }}
           />
         </div>

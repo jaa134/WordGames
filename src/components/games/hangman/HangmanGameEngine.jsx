@@ -80,11 +80,11 @@ const getWordsByLetter = (wordList, lettersByWord) => {
     acc[val] = new Set();
     return acc;
   }, {});
-  wordList.forEach(word => {
+  wordList.forEach((word) => {
     lettersByWord[word].forEach((letter) => {
       result[letter].add(word);
     });
-  })
+  });
   return result;
 };
 
@@ -102,12 +102,12 @@ const getCommonWordsMatchingPuzzle = (wordsMatchingPuzzle) => {
   let i = 0;
   while (i < wordsMatchingPuzzle.length && result.length < NUM_COMMON_WORDS) {
     if (wordsMatchingPuzzleSet.has(commonWords[i])) {
-      result.push(commonWords[i])
+      result.push(commonWords[i]);
     }
     i++;
   }
   return result;
-}
+};
 
 export const getSolution = (wordList, puzzle, incorrectLetters) => {
   const possibleWords = getWordsMatchingPuzzle(wordList, puzzle, incorrectLetters);
@@ -132,8 +132,9 @@ export const getSolution = (wordList, puzzle, incorrectLetters) => {
   });
 
   return {
-    numWordsPossible: possibleWords.length,
+    numWordsExamined: wordList.length,
+    numPossibleWords: possibleWords.length,
     commonExamples,
-    letterAnalsyis: orderBy(letterAnalysis, (data) => data.appearenceRatio, 'desc'),
+    letterAnalsyis: orderBy(letterAnalysis, (data) => data.appearenceRatio, 'desc')
   };
 };

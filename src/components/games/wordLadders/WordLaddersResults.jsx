@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -57,6 +57,7 @@ const WordLaddersResults = ({
           rows={5}
           variant="filled"
           fullWidth
+          InputProps={{ readOnly: true }}
         />
       </div>
 
@@ -112,10 +113,10 @@ const WordLaddersResults = ({
             : (
               <div className={bem('list')}>
                 {solution.map((word, i) => (
-                  <>
+                  <Fragment key={word}>
                     {i > 0 && <ArrowForwardIcon />}
-                    <Chip key={word} label={word} />
-                  </>
+                    <Chip label={word} />
+                  </Fragment>
                 ))}
               </div>
             )}

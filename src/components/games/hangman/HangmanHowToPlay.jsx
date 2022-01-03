@@ -76,7 +76,7 @@ const HangmanHowToPlay = () => (
               We use a greedy algorithm in our approach to beat the Hangman game
               by recommending the most frequently used letter for possible puzzle
               solutions. This approach works well because one of two outcomes is
-              gauranteed. If the guess is correct, then we don't lose a life and
+              gauranteed. If the guess is correct, then we don&apos;t lose a life and
               gain more insight into the correct answer. If the guess is incorrect,
               then we eliminate the largest number of possible answers from our list.
               At each step of the game, we calculate how often each letter appears
