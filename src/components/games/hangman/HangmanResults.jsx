@@ -18,7 +18,7 @@ const HangmanResults = ({
   numWordsExamined,
   numPossibleWords,
   commonExamples,
-  letterAnalsyis
+  letterAnalysis
 }) => (
   <div className={bem()}>
     <Typography variant="h4" gutterBottom component="div">
@@ -71,7 +71,7 @@ const HangmanResults = ({
             <TextField
               id={bem('num-words-eliminated')}
               label="Words elminated"
-              value={numWordsExamined - (numWordsExamined - numPossibleWords)}
+              value={numWordsExamined - numPossibleWords}
               variant="filled"
               InputProps={{ readOnly: true }}
             />
@@ -92,7 +92,7 @@ const HangmanResults = ({
             ? (
               <Alert severity="info">
                 <AlertTitle>No results</AlertTitle>
-                We could not find any common examples for the puzzle
+                We could not find any common answers for this puzzle
               </Alert>
             )
             : (
@@ -110,16 +110,23 @@ const HangmanResults = ({
       <Typography variant="h6" gutterBottom component="div">
         Letter analysis
       </Typography>
-      {letterAnalsyis.every((data) => data.appearenceRatio === 0)
+      {!letterAnalysis
         ? (
           <Alert severity="info">
             <AlertTitle>No results</AlertTitle>
-            We could not find any matches for the configured game board
+            There is no recommended letter to choose from. The answer to this puzzle is unknown!
           </Alert>
         )
         : (
           <div className={bem('list')}>
-            Hello
+            {letterAnalysis.map((data) => (
+              <div key={data.letter}>
+                {data.letter}
+                {' '}
+                -
+                {data.appearenceRatio}
+              </div>
+            ))}
           </div>
         )}
     </div>
@@ -134,12 +141,16 @@ HangmanResults.propTypes = {
   numWordsExamined: PropTypes.number.isRequired,
   numPossibleWords: PropTypes.number.isRequired,
   commonExamples: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-  letterAnalsyis: PropTypes.arrayOf(PropTypes.shape({
+  letterAnalysis: PropTypes.arrayOf(PropTypes.shape({
     letter: PropTypes.string.isRequired,
     numWordsWithLetter: PropTypes.number.isRequired,
     appearenceRatio: PropTypes.number.isRequired,
     examples: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
-  })).isRequired
+  }))
+};
+
+HangmanResults.defaultProps = {
+  letterAnalysis: null
 };
 
 export default HangmanResults;

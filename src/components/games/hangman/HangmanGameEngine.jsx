@@ -111,30 +111,34 @@ const getCommonWordsMatchingPuzzle = (wordsMatchingPuzzle) => {
 
 export const getSolution = (wordList, puzzle, incorrectLetters) => {
   const possibleWords = getWordsMatchingPuzzle(wordList, puzzle, incorrectLetters);
+  const numPossibleWords = possibleWords.length;
   const commonExamples = getCommonWordsMatchingPuzzle(possibleWords);
 
-  const lettersByWord = getLettersByWord(possibleWords);
-  const wordsByLetter = getWordsByLetter(possibleWords, lettersByWord);
-
-  const guessedLetters = getGuessedLetters(puzzle, incorrectLetters);
-  const lettersInPlay = gameChars.filter((letter) => !guessedLetters.has(letter));
-  const letterAnalysis = lettersInPlay.map((letter) => {
-    const wordsWithLetters = getWordsWithLetters(possibleWords, wordsByLetter, [letter]);
-    const numWordsWithLetter = wordsWithLetters.length;
-    const appearenceRatio = numWordsWithLetter / possibleWords.length;
-    const examples = wordsWithLetters.slice(0, NUM_REGULAR_WORDS);
-    return {
-      letter,
-      numWordsWithLetter,
-      appearenceRatio,
-      examples
-    };
-  });
+  let letterAnalysis = null;
+  if (possibleWords.length) {
+    const lettersByWord = getLettersByWord(possibleWords);
+    const wordsByLetter = getWordsByLetter(possibleWords, lettersByWord);
+    const guessedLetters = getGuessedLetters(puzzle, incorrectLetters);
+    const lettersInPlay = gameChars.filter((letter) => !guessedLetters.has(letter));
+    letterAnalysis = lettersInPlay.map((letter) => {
+      const wordsWithLetters = getWordsWithLetters(possibleWords, wordsByLetter, [letter]);
+      const numWordsWithLetter = wordsWithLetters.length;
+      const appearenceRatio = numWordsWithLetter / numPossibleWords;
+      const examples = wordsWithLetters.slice(0, NUM_REGULAR_WORDS);
+      return {
+        letter,
+        numWordsWithLetter,
+        appearenceRatio,
+        examples
+      };
+    });
+    letterAnalysis = orderBy(letterAnalysis, (data) => data.appearenceRatio, 'desc');
+  }
 
   return {
     numWordsExamined: wordList.length,
-    numPossibleWords: possibleWords.length,
+    numPossibleWords,
     commonExamples,
-    letterAnalsyis: orderBy(letterAnalysis, (data) => data.appearenceRatio, 'desc')
+    letterAnalysis
   };
 };
