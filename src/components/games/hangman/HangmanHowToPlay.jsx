@@ -73,7 +73,19 @@ const HangmanHowToPlay = () => (
               Solution
             </Typography>
             <Typography variant="body1" component="div">
-              TODO
+              We use a greedy algorithm in our approach to beat the Hangman game
+              by recommending the most frequently used letter for possible puzzle
+              solutions. This approach works well because one of two outcomes is
+              gauranteed. If the guess is correct, then we don't lose a life and
+              gain more insight into the correct answer. If the guess is incorrect,
+              then we eliminate the largest number of possible answers from our list.
+              At each step of the game, we calculate how often each letter appears
+              in the word list for words that abide by the given puzzle and incorrect
+              letters values. We then compare the puzzle state to a list of 65,000
+              commonly used words to display up to 10 common or probable solutions.
+              If you are playing against an experienced Hangman player, it is less
+              likely that the answer will be in this list. Remember that players
+              will want to use uncommon words as they are harder to guess.
             </Typography>
           </div>
         </Paper>

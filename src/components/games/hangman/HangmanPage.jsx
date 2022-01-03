@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import defineBlock from '../../../utils/defineBlock';
 import PageBase from '../../common/PageBase';
@@ -10,6 +11,7 @@ import PageTitle from '../../common/PageTitle';
 import WordListFileSelect, { listSizes, importWordList } from '../../common/WordListFileSelect';
 import HangmanHowToPlay from './HangmanHowToPlay';
 import HangmanDrawing from './HangmanDrawing';
+import HangmanResults from './HangmanResults';
 import {
   isValidGame,
   normalizePuzzle,
@@ -35,10 +37,14 @@ const HangmanPage = () => {
       let isSubscribed = true;
       importWordList(listSize).then(({ default: wordList }) => {
         timeout = setTimeout(() => {
-          // TODO: solve
-          console.table(getSolution(wordList, puzzle, incorrectLetters));
+          const solution = getSolution(wordList, puzzle, incorrectLetters);
           if (isSubscribed) {
-            // TODO: set results
+            setResults({
+              puzzle,
+              incorrectLetters,
+              listSize,
+              ...solution
+            })
             setLoading(false);
           }
         }, 250);
@@ -107,6 +113,12 @@ const HangmanPage = () => {
           </div>
         </div>
       </div>
+      {results && (
+        <>
+          <Divider />
+          <HangmanResults {...results} />
+        </>
+      )}
     </PageBase>
   );
 };

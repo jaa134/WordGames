@@ -1,5 +1,8 @@
 import { orderBy } from 'lodash';
+import commonWords from '../../../assets/json/commonWords.json';
 
+const NUM_COMMON_WORDS = 10;
+const NUM_REGULAR_WORDS = 5;
 export const WILDCARD_CHAR = '_';
 export const gameChars = 'abcdefghijklmnopqrstuvwxyz'.split('');
 
@@ -50,10 +53,6 @@ const getGuessedLetters = (puzzle, incorrectLetters) => (
   new Set(getCorrectChars(puzzle) + incorrectLetters)
 );
 
-const getWordsWithLength = (wordList, length) => (
-  wordList.filter((word) => word.length === length)
-);
-
 const getLettersByWord = (wordList) => (
   wordList.reduce((acc, val) => {
     acc[val] = [...new Set(val)];
@@ -61,19 +60,15 @@ const getLettersByWord = (wordList) => (
   }, {})
 );
 
-const getWordsNotUsingIncorrectLetters = (wordList, lettersByWord, incorrectLetters) => {
-  const letterSet = new Set(incorrectLetters);
-  return wordList.filter((word) => (
-    lettersByWord[word].every((letter) => !letterSet.has(letter))
-  ));
-};
-
-const getWordsMatchingPuzzlePattern = (wordList, puzzle) => {
+const getWordsMatchingPuzzle = (wordList, puzzle, incorrectLetters) => {
+  const incorrectChars = new Set(incorrectLetters);
   const correctChars = new Set(getCorrectChars(puzzle));
   return wordList.filter((word) => (
-    word.split('').every((letter, i) => {
+    word.length === puzzle.length
+    && word.split('').every((letter, i) => {
       const puzzleChar = puzzle.charAt(i);
-      return puzzleChar === WILDCARD_CHAR
+      return !incorrectChars.has(letter)
+        && puzzleChar === WILDCARD_CHAR
         ? !correctChars.has(letter)
         : puzzleChar === letter;
     })
@@ -85,12 +80,11 @@ const getWordsByLetter = (wordList, lettersByWord) => {
     acc[val] = new Set();
     return acc;
   }, {});
-  for (let i = 0; i < wordList.length; i++) {
-    const word = wordList[i];
+  wordList.forEach(word => {
     lettersByWord[word].forEach((letter) => {
       result[letter].add(word);
     });
-  }
+  })
   return result;
 };
 
@@ -102,66 +96,44 @@ const getWordsWithLetters = (wordList, wordsByLetter, letters) => (
   ))
 );
 
-// TODO: use lettersByWord in getWordsMatchingPuzzlePattern
-// TODO: better manage letters in play - use set?
-// TODO: multiple passes
-// TODO: multi spacing analysis
+const getCommonWordsMatchingPuzzle = (wordsMatchingPuzzle) => {
+  const wordsMatchingPuzzleSet = new Set(wordsMatchingPuzzle);
+  const result = [];
+  let i = 0;
+  while (i < wordsMatchingPuzzle.length && result.length < NUM_COMMON_WORDS) {
+    if (wordsMatchingPuzzleSet.has(commonWords[i])) {
+      result.push(commonWords[i])
+    }
+    i++;
+  }
+  return result;
+}
 
 export const getSolution = (wordList, puzzle, incorrectLetters) => {
-  const guessedLetters = getGuessedLetters(puzzle, incorrectLetters);
-  const lettersInPlay = gameChars.filter((letter) => !guessedLetters.has(letter));
+  const possibleWords = getWordsMatchingPuzzle(wordList, puzzle, incorrectLetters);
+  const commonExamples = getCommonWordsMatchingPuzzle(possibleWords);
 
-  let possibleWords = getWordsWithLength(wordList);
-  possibleWords = getWordsMatchingPuzzlePattern(wordList, puzzle);
   const lettersByWord = getLettersByWord(possibleWords);
-  possibleWords = getWordsNotUsingIncorrectLetters(possibleWords, lettersByWord, incorrectLetters);
   const wordsByLetter = getWordsByLetter(possibleWords, lettersByWord);
 
-  // pass 1
-  const result = lettersInPlay.map((letter1) => {
-    const wordsWithLetters1 = getWordsWithLetters(possibleWords, wordsByLetter, [letter1]);
-    const numWordsWithLetter1 = wordsWithLetters1.length;
-    const appearenceRatio1 = numWordsWithLetter1 / possibleWords.length;
-
-    /*
-    TODO
-    This is super slow, O(n^3) complexity. Maybe only calc 
-    this for the first 3 most frequent letters.
-
-    // pass 2
-    const subsequentResults1 = {};
-    lettersInPlay
-      .filter((letter2) => letter1 !== letter2)
-      .forEach((letter2) => {
-        const wordsWithLetters2 = getWordsWithLetters(wordsWithLetters1, wordsByLetter, [letter1, letter2]);
-        const numWordsWithLetter2 = wordsWithLetters2.length;
-        const appearenceRatio2 = numWordsWithLetter2 / wordsWithLetters1.length;
-        subsequentResults1[letter2] = {
-          numWordsWithLetter: numWordsWithLetter2,
-          appearenceRatio: appearenceRatio2
-        };
-        // pass 3
-        const subsequentResults2 = {};
-        lettersInPlay
-          .filter((letter3) => letter1 !== letter2)
-          .forEach((letter3) => {
-            const wordsWithLetters3 = getWordsWithLetters(wordsWithLetters2, wordsByLetter, [letter1, letter2, letter3]);
-            const numWordsWithLetter3 = wordsWithLetters3.length;
-            const appearenceRatio3 = numWordsWithLetter3 / wordsWithLetters2.length;
-            subsequentResults2[letter3] = {
-              numWordsWithLetter: numWordsWithLetter3,
-              appearenceRatio: appearenceRatio3
-            };
-          });
-      });
-    */
-
+  const guessedLetters = getGuessedLetters(puzzle, incorrectLetters);
+  const lettersInPlay = gameChars.filter((letter) => !guessedLetters.has(letter));
+  const letterAnalysis = lettersInPlay.map((letter) => {
+    const wordsWithLetters = getWordsWithLetters(possibleWords, wordsByLetter, [letter]);
+    const numWordsWithLetter = wordsWithLetters.length;
+    const appearenceRatio = numWordsWithLetter / possibleWords.length;
+    const examples = wordsWithLetters.slice(0, NUM_REGULAR_WORDS);
     return {
-      letter: letter1,
-      numWordsWithLetter: numWordsWithLetter1,
-      appearenceRatio: appearenceRatio1
+      letter,
+      numWordsWithLetter,
+      appearenceRatio,
+      examples
     };
   });
 
-  return orderBy(result, (data) => data.appearenceRatio, 'desc');
+  return {
+    numWordsPossible: possibleWords.length,
+    commonExamples,
+    letterAnalsyis: orderBy(letterAnalysis, (data) => data.appearenceRatio, 'desc'),
+  };
 };
