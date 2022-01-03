@@ -43,6 +43,7 @@ const SpellingBeePage = () => {
               requiredLetter,
               optionalLetters,
               listSize,
+              numWordsExamined: wordList.length,
               matches
             });
             setLoading(false);

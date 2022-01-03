@@ -4,11 +4,11 @@ import { sortBy, groupBy } from 'lodash';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Chip from '@mui/material/Chip';
-import Divider from '@mui/material/Divider';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import defineBlock from '../../../utils/defineBlock';
 import SpellingBeeGameEngine from './SpellingBeeGameEngine';
@@ -26,6 +26,7 @@ const SpellingBeeResults = ({
   requiredLetter,
   optionalLetters,
   listSize,
+  numWordsExamined,
   matches
 }) => {
   const [viewBy, setViewBy] = useState(views.ALPHA);
@@ -53,9 +54,7 @@ const SpellingBeeResults = ({
   return (
     <div className={bem()}>
       <Typography variant="h4" gutterBottom component="div">
-        {listSize}
-        {' '}
-        list results
+        Results
       </Typography>
       <div className={bem('letters')}>
         <div className={bem('honeycomb', 'required')}>{requiredLetter}</div>
@@ -67,6 +66,43 @@ const SpellingBeeResults = ({
           </div>
         ))}
       </div>
+
+      <div className={bem('info')}>
+        <Typography variant="h6" gutterBottom component="div">
+          Stats
+        </Typography>
+        <div className={bem('stats')}>
+          <TextField
+            id={bem('list-size')}
+            label="List size"
+            value={listSize}
+            variant="filled"
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            id={bem('num-words-examined')}
+            label="Total word count"
+            value={numWordsExamined}
+            variant="filled"
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            id={bem('num-words-eliminated')}
+            label="Words elminated"
+            value={numWordsExamined - matches.length}
+            variant="filled"
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            id={bem('num-possible-words')}
+            label="Possible word count"
+            value={matches.length}
+            variant="filled"
+            InputProps={{ readOnly: true }}
+          />
+        </div>
+      </div>
+
       {displayValues.length === 0
         ? (
           <Alert className={bem('no-results')} severity="info">
@@ -76,6 +112,9 @@ const SpellingBeeResults = ({
         )
         : (
           <>
+            <Typography variant="h6" gutterBottom component="div">
+              Solution
+            </Typography>
             <FormControl className={bem('view-by')} variant="filled" sx={{ minWidth: 300 }}>
               <InputLabel id={bem('view-by-label')}>Sort by</InputLabel>
               <Select
@@ -89,7 +128,6 @@ const SpellingBeeResults = ({
                 <MenuItem value={views.POINTS}>Points</MenuItem>
               </Select>
             </FormControl>
-            <Divider />
             <div className={bem('list')}>
               {displayValues.map((group) => (
                 <div key={group.key} className={bem('row')}>
@@ -108,6 +146,7 @@ SpellingBeeResults.propTypes = {
   requiredLetter: PropTypes.string.isRequired,
   optionalLetters: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   listSize: PropTypes.string.isRequired,
+  numWordsExamined: PropTypes.number.isRequired,
   matches: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 };
 
