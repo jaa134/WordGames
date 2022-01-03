@@ -103,41 +103,43 @@ const SpellingBeeResults = ({
         </div>
       </div>
 
-      {displayValues.length === 0
-        ? (
-          <Alert className={bem('no-results')} severity="info">
-            <AlertTitle>No results</AlertTitle>
-            We could not find any matches for the configured game board
-          </Alert>
-        )
-        : (
-          <>
-            <Typography variant="h6" gutterBottom component="div">
-              Solution
-            </Typography>
-            <FormControl className={bem('view-by')} variant="filled" sx={{ minWidth: 300 }}>
-              <InputLabel id={bem('view-by-label')}>Sort by</InputLabel>
-              <Select
-                labelId={bem('view-by-label')}
-                id={bem('view-by-select')}
-                value={viewBy}
-                onChange={(event) => { setViewBy(event.target.value); }}
-              >
-                <MenuItem value={views.ALPHA}>Alphabetical</MenuItem>
-                <MenuItem value={views.LENGTH}>Length</MenuItem>
-                <MenuItem value={views.POINTS}>Points</MenuItem>
-              </Select>
-            </FormControl>
-            <div className={bem('list')}>
-              {displayValues.map((group) => (
-                <div key={group.key} className={bem('row')}>
-                  <div className={bem('key')}>{group.key}</div>
-                  <div>{group.matches.map((match) => (<Chip key={match} label={match} />))}</div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+      <div>
+        <Typography variant="h6" gutterBottom component="div">
+          Solution
+        </Typography>
+        {displayValues.length === 0
+          ? (
+            <Alert className={bem('no-results')} severity="info">
+              <AlertTitle>No results</AlertTitle>
+              We could not find any matches for the configured game board
+            </Alert>
+          )
+          : (
+            <>
+              <FormControl className={bem('view-by')} variant="filled" sx={{ minWidth: 300 }}>
+                <InputLabel id={bem('view-by-label')}>Sort by</InputLabel>
+                <Select
+                  labelId={bem('view-by-label')}
+                  id={bem('view-by-select')}
+                  value={viewBy}
+                  onChange={(event) => { setViewBy(event.target.value); }}
+                >
+                  <MenuItem value={views.ALPHA}>Alphabetical</MenuItem>
+                  <MenuItem value={views.LENGTH}>Length</MenuItem>
+                  <MenuItem value={views.POINTS}>Points</MenuItem>
+                </Select>
+              </FormControl>
+              <div className={bem('list')}>
+                {displayValues.map((group) => (
+                  <div key={group.key} className={bem('row')}>
+                    <div className={bem('key')}>{group.key}</div>
+                    <div>{group.matches.map((match) => (<Chip key={match} label={match} />))}</div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+      </div>
     </div>
   );
 };
