@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Chip from '@mui/material/Chip';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import defineBlock from '../../../utils/defineBlock';
@@ -96,7 +103,7 @@ const HangmanResults = ({
               </Alert>
             )
             : (
-              <div className={bem('common')}>
+              <div className={bem('common-examples')}>
                 {commonExamples.map((word) => (
                   <Chip key={word} label={word} />
                 ))}
@@ -118,16 +125,56 @@ const HangmanResults = ({
           </Alert>
         )
         : (
-          <div className={bem('list')}>
-            {letterAnalysis.map((data) => (
-              <div key={data.letter}>
-                {data.letter}
-                {' '}
-                -
-                {data.appearenceRatio}
-              </div>
-            ))}
-          </div>
+          <TableContainer component={Paper}>
+            <Table aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ pl: 4, width: 100 }}>
+                    Letter
+                  </TableCell>
+                  <TableCell align="right" sx={{ width: 100 }}>
+                    % Correct choice
+                  </TableCell>
+                  <TableCell align="right" sx={{ width: 170 }}>
+                    # Words found
+                  </TableCell>
+                  <TableCell sx={{ pl: 10, width: 400 }}>
+                    Examples
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {letterAnalysis.map((data) => (
+                  <Fragment key={data.letter}>
+                    <TableRow>
+                      <TableCell sx={{ pl: 4 }}>
+                        <Typography variant="h6" component="div">
+                          {data.letter}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography variant="h6" component="div">
+                          {`${Math.ceil(data.appearenceRatio * 100)}%`}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography variant="h6" component="div">
+                          {data.numWordsWithLetter}
+                        </Typography>
+                      </TableCell>
+                      <TableCell sx={{ pt: 1, pl: 10 }}>
+                        <div className={bem('letter-examples')}>
+                          {data.examples.map((word) => (
+                            <Chip key={word} label={word} />
+                          ))}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  </Fragment>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         )}
     </div>
 

@@ -59,7 +59,7 @@
       }
     }
   }
-  &__common {
+  &__common-examples {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -80,5 +80,13 @@
     padding: 2.25rem 0 3rem 0;
     margin: 3rem 0 0 0;
     border-top: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  &__letter-examples {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    .MuiChip-root {
+      margin: 0.5rem 0.5rem 0 0;
+    }
   }
 }
