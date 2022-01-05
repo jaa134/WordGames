@@ -1,5 +1,6 @@
 export const paths = {
   HOME: '',
+  BOGGLE: 'boggle',
   HANGMAN: 'hangman',
   NYT_SPELLING_BEE: 'nyt-spelling-bee',
   SCRABBLE: 'scrabble',

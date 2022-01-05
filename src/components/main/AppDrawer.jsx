@@ -10,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { paths } from '../../constants';
 import defineBlock from '../../utils/defineBlock';
 import BlackJackIcon from '../icons/BlackJackIcon';
+import BoggleIcon from '../icons/BoggleIcon';
 import CheckersIcon from '../icons/CheckersIcon';
 import ChessIcon from '../icons/ChessIcon';
 import ConnectFourIcon from '../icons/ConnectFourIcon';
@@ -33,6 +34,11 @@ const categories = [
     type: 'word',
     displayText: 'Word games',
     menuItems: [
+      {
+        name: 'Boggle',
+        icon: <BoggleIcon />,
+        href: paths.BOGGLE
+      },
       {
         name: 'Hangman',
         icon: <HangmanIcon />,
