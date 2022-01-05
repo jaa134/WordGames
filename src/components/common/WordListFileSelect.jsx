@@ -65,7 +65,7 @@ const WordListFileSelect = ({
       </MenuItem>
       <MenuItem value={listSizes.MEDIUM}>
         <span className={bem('size-name')}>{listSizes.MEDIUM}</span>
-        <span className={bem('size-details')}>0.7 MB - 86k words</span>
+        <span className={bem('size-details')}>0.7 MB - 61k words</span>
       </MenuItem>
       <MenuItem value={listSizes.LARGE}>
         <span className={bem('size-name')}>{listSizes.LARGE}</span>

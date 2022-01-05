@@ -64,7 +64,7 @@ const SpellingBeePage = () => {
       <SpellingBeeHowToPlay />
       <div className={bem('game')}>
         <div className={bem('grid')}>
-          <ul className={bem('grid-row')} lang="es">
+          <ul className={bem('grid-row')}>
             <li className={bem('grid-cell')}>
               <div className={bem('input-wrapper')}>
                 <OptionalLetterInput
@@ -84,7 +84,7 @@ const SpellingBeePage = () => {
               </div>
             </li>
           </ul>
-          <ul className={bem('grid-row')} lang="es">
+          <ul className={bem('grid-row')}>
             <li className={bem('grid-cell')}>
               <div className={bem('input-wrapper')}>
                 <OptionalLetterInput
@@ -110,7 +110,7 @@ const SpellingBeePage = () => {
               </div>
             </li>
           </ul>
-          <ul className={bem('grid-row')} lang="es">
+          <ul className={bem('grid-row')}>
             <li className={bem('grid-cell')}>
               <div className={bem('input-wrapper')}>
                 <OptionalLetterInput

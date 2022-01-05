@@ -24,6 +24,11 @@ const WordLadders = lazy(() => import(
   '../games/wordLadders/WordLaddersPage'
 ));
 
+const Wordscapes = lazy(() => import(
+  /* webpackChunkName: "Wordscapes" */
+  '../games/wordscapes/WordscapesPage'
+));
+
 const AppNavRoutes = () => (
   <Suspense fallback={<PageLoading />}>
     <Routes>
@@ -33,7 +38,7 @@ const AppNavRoutes = () => (
       <Route path={paths.SCRABBLE} element={<ConstructionPage />} exact />
       <Route path={paths.WORD_LADDERS} element={<WordLadders />} exact />
       <Route path={paths.WORD_SEARCH} element={<ConstructionPage />} exact />
-      <Route path={paths.WORDSCAPES} element={<ConstructionPage />} exact />
+      <Route path={paths.WORDSCAPES} element={<Wordscapes />} exact />
       <Route path={paths.CHECKERS} element={<ConstructionPage />} exact />
       <Route path={paths.CHESS} element={<ConstructionPage />} exact />
       <Route path={paths.CONNECT_FOUR} element={<ConstructionPage />} exact />
