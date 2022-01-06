@@ -52,7 +52,7 @@ export const getSolution = (wordList, puzzle) => {
   const findWordsUtil = (currentWord, i, j) => {
     path.push({ row: i, col: j });
     visited[i][j] = true;
-    if (trie.containsWord(currentWord)) {
+    if (!(currentWord in foundWords) && trie.containsWord(currentWord)) {
       foundWords[currentWord] = [...path];
     }
     for (let row = i - 1; row <= i + 1 && row < numPuzzleRows; row++) {
@@ -76,4 +76,20 @@ export const getSolution = (wordList, puzzle) => {
   });
 
   return foundWords;
+};
+
+export const calcWordPoints = (word) => {
+  let result = 0;
+  if (word.length <= 4) {
+    result = 1;
+  } else if (word.length === 5) {
+    result = 2;
+  } else if (word.length === 6) {
+    result = 3;
+  } else if (word.length === 7) {
+    result = 5;
+  } else if (word.length > 7) {
+    result = 11;
+  }
+  return result;
 };

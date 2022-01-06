@@ -9,14 +9,10 @@ import PageLoading from '../../common/PageLoading';
 import PageTitle from '../../common/PageTitle';
 import WordListFileSelect, { listSizes, importWordList } from '../../common/WordListFileSelect';
 import BoggleHowToPlay from './BoggleHowToPlay';
+import BoggleGameBoard from './BoggleGameBoard';
 import BogglePuzzleInput from './BogglePuzzleInput';
 import BoggleResults from './BoggleResults';
-import {
-  EMPTY_GAME_CHAR,
-  getPuzzleGrid,
-  isValidGame,
-  getSolution
-} from './BoggleGameEngine';
+import { isValidGame, getSolution } from './BoggleGameEngine';
 import './BogglePage.scss';
 
 const bem = defineBlock('BogglePage');
@@ -35,16 +31,17 @@ const BogglePage = () => {
       let isSubscribed = true;
       importWordList(listSize).then(({ default: wordList }) => {
         timeout = setTimeout(() => {
+          const startTime = window.performance.now();
           const solution = getSolution(wordList, puzzle);
-          console.log(solution);
+          const endTime = window.performance.now();
           if (isSubscribed) {
-            /*
             setResults({
               puzzle,
               listSize,
-              ...solution
+              runTime: Math.round(endTime - startTime),
+              numWordsExamined: wordList.length,
+              foundWords: solution
             });
-            */
             setLoading(false);
           }
         }, 250);
@@ -64,26 +61,8 @@ const BogglePage = () => {
       <div className={bem('game')}>
         <div>
           {puzzle.length > 0 && (
-            <div className={bem('grid')}>
-              {getPuzzleGrid(puzzle).map((row, i) => (
-                <div
-                  key={`${row.str}-${i}`}
-                  className={bem('grid-row')}
-                  style={{ gridTemplateColumns: `repeat(${row.arr.length}, 1fr)` }}
-                >
-                  {row.arr.map((letter, k) => {
-                    const isEmptyCell = letter === EMPTY_GAME_CHAR;
-                    return (
-                      <div
-                        key={`${letter}-${k}`}
-                        className={bem('grid-cell', { empty: isEmptyCell })}
-                      >
-                        {!isEmptyCell && letter}
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
+            <div className={bem('board')}>
+              <BoggleGameBoard puzzle={puzzle} />
             </div>
           )}
           <BogglePuzzleInput

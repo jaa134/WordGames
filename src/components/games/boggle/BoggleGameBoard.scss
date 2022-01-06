@@ -1,0 +1,41 @@
+.BoggleGameBoard {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  &__row {
+    display: inline-grid;
+    grid-template-rows: 1fr;
+    grid-gap: 2px;
+    border: 2px solid black;
+    background-color: black;
+    font-family: monospace;
+    font-size: 2rem;
+    &:not(:last-child) {
+      border-bottom: none;
+    }
+  }
+  &__cell {
+    height: 2.5rem;
+    width: 2.5rem;
+    line-height: 2.5rem;
+    text-align: center;
+    background-color: white;
+    &--empty {
+      background-color: rgb(255, 244, 229);
+    }
+  }
+  &__path {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    circle {
+      fill: rgba(255, 0, 0, 0.33);
+    }
+    line {
+      stroke: rgba(255, 0, 0, 0.33);
+      stroke-width: 4px;
+    }
+  }
+}
