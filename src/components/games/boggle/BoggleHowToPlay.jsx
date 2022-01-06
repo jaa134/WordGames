@@ -73,15 +73,17 @@ const BoggleHowToPlay = () => (
               Solution
             </Typography>
             <Typography variant="body1" component="div">
-              The idea is to consider every character as a starting character
-              and find all words starting with it. All words starting from a
-              character can be found using depth first traversal (DFS). We do
-              DFS starting from every cell. We keep track of visited cells to
-              make sure that a cell is considered only once in a word. The
-              traversal will start at a single cell and brach outwards to each
-              of the eight adjacent cells. Once every posible adjacent cell has been
-              visited in our DFS, we know that the combination of characters has
-              reached its end. Words that are found along the way will be recorded.
+              We need to consider every cell as a starting character and
+              find all words starting with it. This can be done using depth
+              first traversal (DFS) and a trie for opptimization. We do DFS
+              starting from every cell and brach outwards to each of the
+              eight adjacent cells. We keep track of visited cells to make
+              sure that a cell is considered only once in a word. Once every
+              posible adjacent cell has been visited in our DFS, we know that
+              the combination of characters has reached its end. Our trie can
+              make this process quicker by eliminating paths that create
+              prefixes for words that do not exist. Valid words found along
+              the way will be recorded.
             </Typography>
           </div>
         </Paper>
