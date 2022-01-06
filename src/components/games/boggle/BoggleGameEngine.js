@@ -70,8 +70,8 @@ export const getSolution = (wordList, puzzle) => {
   };
 
   puzzleGrid.forEach((row, i) => {
-    row.arr.forEach((col, j) => {
-      findWordsUtil(col[j], i, j);
+    row.arr.forEach((colLetter, j) => {
+      findWordsUtil(colLetter, i, j);
     });
   });
 
