@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { sortBy, groupBy } from 'lodash';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import Autocomplete from '@mui/material/Autocomplete';
 import Chip from '@mui/material/Chip';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -31,6 +32,7 @@ const BoggleResults = ({
   foundWords
 }) => {
   const [viewBy, setViewBy] = useState(views.ALPHA);
+  const [viewPathFor, setViewPathFor] = useState(null);
   const foundWordsList = Object.keys(foundWords);
   const displayValues = useMemo(() => {
     let result = sortBy(foundWordsList);
@@ -51,14 +53,35 @@ const BoggleResults = ({
       }));
     }
     return result;
-  }, [foundWordsList, viewBy]);
+  }, [foundWords, viewBy]);
   return (
     <div className={bem()}>
       <Typography variant="h4" gutterBottom component="div">
         Results
       </Typography>
       <div>
-        <BoggleGameBoard puzzle={puzzle} path={foundWords.need} />
+        <div className={bem('board')}>
+          <BoggleGameBoard
+            puzzle={puzzle}
+            path={viewPathFor ? foundWords[viewPathFor] : null}
+          />
+        </div>
+        <Autocomplete
+          id={bem('answer-select')}
+          options={foundWordsList.sort((a, b) => -b.localeCompare(a))}
+          groupBy={(option) => option[0]}
+          sx={{ width: 300 }}
+          ListboxProps={{ style: { maxHeight: '15rem' } }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="View solution for"
+              helperText="Select a word to view its path"
+              variant="filled"
+            />
+          )}
+          onChange={(_, value) => { setViewPathFor(value); }}
+        />
       </div>
       <div className={bem('info')}>
         <Typography variant="h6" gutterBottom component="div">
