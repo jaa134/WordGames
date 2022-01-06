@@ -1,3 +1,5 @@
+import trie from '../../../utils/trie';
+
 const validWordRegex = /^[a-z]+$/;
 
 export const EMPTY_GAME_CHAR = '?';
@@ -29,36 +31,46 @@ export const isValidGame = (puzzle) => (
     ))
 );
 
-// A recursive function to traverse 8 adjacent cells of puzzleGrid[i,j]
-const findWordsUtil = (wordSet, puzzleGrid, visited, i, j, str, foundWords) => {
-  // eslint-disable-next-line no-param-reassign
-  visited[i][j] = true;
-  const newStr = str + puzzleGrid[i].arr[j];
-  if (wordSet.has(newStr)) {
-    foundWords.add(newStr);
-  }
-  for (let row = i - 1; row <= i + 1 && row < puzzleGrid.length; row++) {
-    for (let col = j - 1; col <= j + 1 && col < puzzleGrid[0].arr.length; col++) {
-      if (row >= 0 && col >= 0 && !visited[row][col]) {
-        findWordsUtil(wordSet, puzzleGrid, visited, row, col, newStr, foundWords);
+export const getSolution = (wordList, puzzle) => {
+  const puzzleGrid = getPuzzleGrid(puzzle);
+  const numPuzzleRows = puzzleGrid.length;
+  const numPuzzleCols = puzzleGrid[0].arr.length;
+  const puzzleLetters = new Set(puzzle);
+
+  const possibleWords = wordList.filter((word) => (
+    word.length >= MIN_WORD_LENGTH
+    && word.split('').every((letter) => puzzleLetters.has(letter))
+  ));
+  possibleWords.forEach((word) => {
+    trie.add(word);
+  });
+
+  // A recursive function to traverse 8 adjacent cells of puzzleGrid[i,j]
+  const foundWords = {};
+  const visited = Array.from(Array(numPuzzleRows), () => new Array(numPuzzleCols).fill(0));
+  const findWordsUtil = (currentWord, i, j) => {
+    visited[i][j] = true;
+    if (trie.containsWord(currentWord)) {
+      foundWords[currentWord] = true;
+    }
+    for (let row = i - 1; row <= i + 1 && row < numPuzzleRows; row++) {
+      for (let col = j - 1; col <= j + 1 && col < numPuzzleCols; col++) {
+        if (row >= 0 && col >= 0 && !visited[row][col]) {
+          const nextWord = currentWord + puzzleGrid[row].arr[col];
+          if (trie.isValidPrefix(nextWord)) {
+            findWordsUtil(nextWord, row, col);
+          }
+        }
       }
     }
-  }
-  // eslint-disable-next-line no-param-reassign
-  visited[i][j] = false;
-};
+    visited[i][j] = false;
+  };
 
-export const getSolution = (wordList, puzzle) => {
-  const wordSet = new Set(wordList.filter((word) => word.length >= MIN_WORD_LENGTH));
-  const puzzleGrid = getPuzzleGrid(puzzle);
-  const numRows = puzzleGrid.length;
-  const numCols = puzzleGrid[0].arr.length;
-  const visited = Array.from(Array(numRows), () => new Array(numCols).fill(0));
-  const foundWords = new Set();
-  for (let i = 0; i < numRows; i++) {
-    for (let j = 0; j < numCols; j++) {
-      findWordsUtil(wordSet, puzzleGrid, visited, i, j, '', foundWords);
-    }
-  }
+  puzzleGrid.forEach((row, i) => {
+    row.arr.forEach((col, j) => {
+      findWordsUtil(col[j], i, j);
+    });
+  });
+
   return foundWords;
 };

@@ -27,10 +27,10 @@ const BogglePuzzleInput = ({
     id={bem()}
     className={bem()}
     label="Puzzle grid"
-    helperText="Enter one row per line"
+    helperText={`Enter one row per line (up to ${MAX_BOARD_SIZE}x${MAX_BOARD_SIZE})`}
     value={value}
     multiline
-    rows={MAX_BOARD_SIZE}
+    rows={value.split('\n').length}
     variant="filled"
     inputProps={{ spellCheck: 'false' }}
     sx={{
