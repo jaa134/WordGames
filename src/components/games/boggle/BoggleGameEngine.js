@@ -47,11 +47,13 @@ export const getSolution = (wordList, puzzle) => {
 
   // A recursive function to traverse 8 adjacent cells of puzzleGrid[i,j]
   const foundWords = {};
+  const path = [];
   const visited = Array.from(Array(numPuzzleRows), () => new Array(numPuzzleCols).fill(0));
   const findWordsUtil = (currentWord, i, j) => {
+    path.push({ row: i, col: j });
     visited[i][j] = true;
     if (trie.containsWord(currentWord)) {
-      foundWords[currentWord] = true;
+      foundWords[currentWord] = [...path];
     }
     for (let row = i - 1; row <= i + 1 && row < numPuzzleRows; row++) {
       for (let col = j - 1; col <= j + 1 && col < numPuzzleCols; col++) {
@@ -63,6 +65,7 @@ export const getSolution = (wordList, puzzle) => {
         }
       }
     }
+    path.pop();
     visited[i][j] = false;
   };
 
