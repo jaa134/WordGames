@@ -46,11 +46,14 @@ const WordscapesPage = () => {
       let isSubscribed = true;
       importWordList(listSize).then(({ default: wordList }) => {
         timeout = setTimeout(() => {
+          const startTime = window.performance.now();
           const matches = WordscapesGameEngine.getMatches(wordList, puzzle);
+          const endTime = window.performance.now();
           if (isSubscribed) {
             setResults({
               puzzle,
               listSize,
+              runTime: Math.round(endTime - startTime),
               numWordsExamined: wordList.length,
               matches
             });

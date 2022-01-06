@@ -35,14 +35,17 @@ const WordLaddersPage = () => {
       let isSubscribed = true;
       importWordList(listSize).then(({ default: wordList }) => {
         timeout = setTimeout(() => {
+          const startTime = window.performance.now();
           const excludedArr = excludedWords.split('\n').filter((word) => !!word);
           const solution = WordLaddersGameEngine.getSolution(wordList, word1, word2, excludedArr);
+          const endTime = window.performance.now();
           if (isSubscribed) {
             setResults({
               word1,
               word2,
               excludedWords,
               listSize,
+              runTime: Math.round(endTime - startTime),
               ...solution
             });
             setLoading(false);

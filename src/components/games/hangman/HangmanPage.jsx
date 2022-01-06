@@ -37,12 +37,15 @@ const HangmanPage = () => {
       let isSubscribed = true;
       importWordList(listSize).then(({ default: wordList }) => {
         timeout = setTimeout(() => {
+          const startTime = window.performance.now();
           const solution = getSolution(wordList, puzzle, incorrectLetters);
+          const endTime = window.performance.now();
           if (isSubscribed) {
             setResults({
               puzzle,
               incorrectLetters,
               listSize,
+              runTime: Math.round(endTime - startTime),
               ...solution
             });
             setLoading(false);

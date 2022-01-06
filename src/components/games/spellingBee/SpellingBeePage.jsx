@@ -36,13 +36,16 @@ const SpellingBeePage = () => {
       let isSubscribed = true;
       importWordList(listSize).then(({ default: wordList }) => {
         timeout = setTimeout(() => {
+          const startTime = window.performance.now();
           const matches = SpellingBeeGameEngine
             .getMatches(wordList, requiredLetter, optionalLetters);
+          const endTime = window.performance.now();
           if (isSubscribed) {
             setResults({
               requiredLetter,
               optionalLetters,
               listSize,
+              runTime: Math.round(endTime - startTime),
               numWordsExamined: wordList.length,
               matches
             });

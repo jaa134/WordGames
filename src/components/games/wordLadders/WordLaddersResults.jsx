@@ -18,6 +18,7 @@ const WordLaddersResults = ({
   word2,
   excludedWords,
   listSize,
+  runTime,
   numWordsWithLength,
   numWordsUsed,
   solution
@@ -71,6 +72,13 @@ const WordLaddersResults = ({
               id={bem('list-size')}
               label="List size"
               value={listSize}
+              variant="filled"
+              InputProps={{ readOnly: true }}
+            />
+            <TextField
+              id={bem('run-time')}
+              label="Run time"
+              value={`${runTime}ms`}
               variant="filled"
               InputProps={{ readOnly: true }}
             />
@@ -132,6 +140,7 @@ WordLaddersResults.propTypes = {
   word2: PropTypes.string.isRequired,
   excludedWords: PropTypes.string.isRequired,
   listSize: PropTypes.string.isRequired,
+  runTime: PropTypes.number.isRequired,
   numWordsWithLength: PropTypes.number.isRequired,
   numWordsUsed: PropTypes.number.isRequired,
   solution: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired

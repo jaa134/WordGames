@@ -22,6 +22,7 @@ const HangmanResults = ({
   puzzle,
   incorrectLetters,
   listSize,
+  runTime,
   numWordsExamined,
   numPossibleWords,
   commonExamples,
@@ -65,6 +66,13 @@ const HangmanResults = ({
               id={bem('list-size')}
               label="List size"
               value={listSize}
+              variant="filled"
+              InputProps={{ readOnly: true }}
+            />
+            <TextField
+              id={bem('run-time')}
+              label="Run time"
+              value={`${runTime}ms`}
               variant="filled"
               InputProps={{ readOnly: true }}
             />
@@ -185,6 +193,7 @@ HangmanResults.propTypes = {
   puzzle: PropTypes.string.isRequired,
   incorrectLetters: PropTypes.string.isRequired,
   listSize: PropTypes.string.isRequired,
+  runTime: PropTypes.number.isRequired,
   numWordsExamined: PropTypes.number.isRequired,
   numPossibleWords: PropTypes.number.isRequired,
   commonExamples: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,

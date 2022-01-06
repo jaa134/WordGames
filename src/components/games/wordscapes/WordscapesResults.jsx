@@ -23,6 +23,7 @@ const views = {
 const WordscapesResults = ({
   puzzle,
   listSize,
+  runTime,
   numWordsExamined,
   matches
 }) => {
@@ -66,6 +67,13 @@ const WordscapesResults = ({
             id={bem('list-size')}
             label="List size"
             value={listSize}
+            variant="filled"
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            id={bem('run-time')}
+            label="Run time"
+            value={`${runTime}ms`}
             variant="filled"
             InputProps={{ readOnly: true }}
           />
@@ -136,6 +144,7 @@ const WordscapesResults = ({
 WordscapesResults.propTypes = {
   puzzle: PropTypes.string.isRequired,
   listSize: PropTypes.string.isRequired,
+  runTime: PropTypes.number.isRequired,
   numWordsExamined: PropTypes.number.isRequired,
   matches: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 };

@@ -26,6 +26,7 @@ const SpellingBeeResults = ({
   requiredLetter,
   optionalLetters,
   listSize,
+  runTime,
   numWordsExamined,
   matches
 }) => {
@@ -76,6 +77,13 @@ const SpellingBeeResults = ({
             id={bem('list-size')}
             label="List size"
             value={listSize}
+            variant="filled"
+            InputProps={{ readOnly: true }}
+          />
+          <TextField
+            id={bem('run-time')}
+            label="Run time"
+            value={`${runTime}ms`}
             variant="filled"
             InputProps={{ readOnly: true }}
           />
@@ -148,6 +156,7 @@ SpellingBeeResults.propTypes = {
   requiredLetter: PropTypes.string.isRequired,
   optionalLetters: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   listSize: PropTypes.string.isRequired,
+  runTime: PropTypes.number.isRequired,
   numWordsExamined: PropTypes.number.isRequired,
   matches: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired
 };
