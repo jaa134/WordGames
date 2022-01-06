@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import defineBlock from '../../../utils/defineBlock';
-import BoggleGameEngine from './BoggleGameEngine';
+import { MAX_BOARD_SIZE } from './BoggleGameEngine';
 
 const bem = defineBlock('BogglePuzzleInput');
 
@@ -14,8 +14,8 @@ const normalizeValue = (event) => (
     .replace(nonChars, '')
     .replace(multiNewLine, '\n')
     .split('\n')
-    .map((rowStr) => rowStr.substring(0, BoggleGameEngine.MAX_BOARD_SIZE))
-    .slice(0, BoggleGameEngine.MAX_BOARD_SIZE)
+    .map((rowStr) => rowStr.substring(0, MAX_BOARD_SIZE))
+    .slice(0, MAX_BOARD_SIZE)
     .join('\n')
 );
 
@@ -30,8 +30,9 @@ const BogglePuzzleInput = ({
     helperText="Enter one row per line"
     value={value}
     multiline
-    rows={BoggleGameEngine.MAX_BOARD_SIZE}
+    rows={MAX_BOARD_SIZE}
     variant="filled"
+    inputProps={{ spellCheck: 'false' }}
     sx={{
       width: 382,
       '& .MuiFilledInput-root': {
@@ -42,7 +43,7 @@ const BogglePuzzleInput = ({
       },
       '& textarea': {
         fontFamily: 'monospace',
-        letterSpacing: '3px'
+        letterSpacing: '1rem'
       }
     }}
     onChange={(event) => { setValue(normalizeValue(event)); }}

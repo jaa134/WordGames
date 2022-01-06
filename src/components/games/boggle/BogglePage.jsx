@@ -11,7 +11,12 @@ import WordListFileSelect, { listSizes, importWordList } from '../../common/Word
 import BoggleHowToPlay from './BoggleHowToPlay';
 import BogglePuzzleInput from './BogglePuzzleInput';
 import BoggleResults from './BoggleResults';
-import BoggleGameEngine from './BoggleGameEngine';
+import {
+  EMPTY_GAME_CHAR,
+  getPuzzleGrid,
+  isValidGame,
+  getSolution
+} from './BoggleGameEngine';
 import './BogglePage.scss';
 
 const bem = defineBlock('BogglePage');
@@ -21,7 +26,7 @@ const BogglePage = () => {
   const [puzzle, setPuzzle] = useState('');
   const [listSize, setListSize] = useState(listSizes.SMALL);
   const [results, setResults] = useState(null);
-  const isGameValid = BoggleGameEngine.isValidGame(puzzle);
+  const isGameValid = isValidGame(puzzle);
   const initiateSolve = () => { setLoading(true); };
   useEffect(() => {
     let result = null;
@@ -30,13 +35,16 @@ const BogglePage = () => {
       let isSubscribed = true;
       importWordList(listSize).then(({ default: wordList }) => {
         timeout = setTimeout(() => {
-          const solution = BoggleGameEngine.getSolution(wordList, puzzle);
+          const solution = getSolution(wordList, puzzle);
+          console.log(solution);
           if (isSubscribed) {
+            /*
             setResults({
               puzzle,
               listSize,
               ...solution
             });
+            */
             setLoading(false);
           }
         }, 250);
@@ -57,14 +65,14 @@ const BogglePage = () => {
         <div>
           {puzzle.length > 0 && (
             <div className={bem('grid')}>
-              {BoggleGameEngine.getPuzzleGrid(puzzle).map((row, i) => (
+              {getPuzzleGrid(puzzle).map((row, i) => (
                 <div
                   key={`${row.str}-${i}`}
                   className={bem('grid-row')}
                   style={{ gridTemplateColumns: `repeat(${row.arr.length}, 1fr)` }}
                 >
                   {row.arr.map((letter, k) => {
-                    const isEmptyCell = letter === BoggleGameEngine.DEFAULT_CHAR;
+                    const isEmptyCell = letter === EMPTY_GAME_CHAR;
                     return (
                       <div
                         key={`${letter}-${k}`}
