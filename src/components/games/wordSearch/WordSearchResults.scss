@@ -1,0 +1,49 @@
+.WordSearchResults {
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  padding: 2rem 0;
+  &__board {
+    margin-bottom: 1.5rem;
+  }
+  &__info {
+    padding: 2.25rem 0 1.75rem 0;
+    margin: 2rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  &__stats {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    .MuiTextField-root {
+      flex: 1 1 175px;
+      max-width: 200px;
+      margin: 0 0 1rem 0;
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+  }
+  &__view-by  {
+    margin: 0 0 0.5rem 0;
+  }
+  &__list {
+    .MuiChip-root {
+      margin: 0 0.5rem 0.5rem 0;
+      height: 2.5rem;
+      border-radius: 1.25rem;
+    }
+    .MuiChip-label {
+      padding: 0 1.5rem;
+      font-size: 1rem;
+    }
+  }
+  &__row {
+    display: flex;
+    padding: 1.5rem 0 0 0;
+  }
+  &__key {
+    flex: 0 0 3rem;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+  }
+}

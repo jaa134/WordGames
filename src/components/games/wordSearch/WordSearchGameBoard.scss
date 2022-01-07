@@ -1,0 +1,36 @@
+.WordSearchGameBoard {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  border: 2px solid black;
+  &__row {
+    display: inline-grid;
+    grid-template-rows: 1fr;
+    background-color: white;
+    font-family: monospace;
+    font-size: 1rem;
+  }
+  &__cell {
+    height: 1.5rem;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    &--empty {
+      background-color: rgb(255, 244, 229);
+    }
+  }
+  &__path {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    circle {
+      fill: rgba(255, 0, 0, 0.33);
+    }
+    line {
+      stroke: rgba(255, 0, 0, 0.33);
+      stroke-width: 4px;
+    }
+  }
+}

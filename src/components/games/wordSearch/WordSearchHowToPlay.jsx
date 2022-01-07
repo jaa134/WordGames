@@ -3,16 +3,16 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import defineBlock from '../../../utils/defineBlock';
-import './BoggleHowToPlay.scss';
+import './WordSearchHowToPlay.scss';
 
-const bem = defineBlock('BoggleHowToPlay');
+const bem = defineBlock('WordSearchHowToPlay');
 
 const infoStyling = {
   color: 'rgb(1, 67, 97)',
   backgroundColor: 'rgb(229, 246, 253)'
 };
 
-const BoggleHowToPlay = () => (
+const WordSearchHowToPlay = () => (
   <div className={bem()}>
     <Grid container spacing={2} alignItems="stretch">
       <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -22,16 +22,14 @@ const BoggleHowToPlay = () => (
               Description
             </Typography>
             <Typography variant="body1" gutterBottom component="div">
-              Boggle is a Hasbro word game that consists of letter cubes
-              arranged in a rectangular pattern. The goal of the game is
-              to have the highest point total by finding words. To gain
-              points, players must create words from the randomly assorted
-              letters in the cube grid. The longer the word, the higher the
-              point value of the word. Words should be created by using
-              adjoining letters in any direction to create valid English words.
-              This means that the letters can be above or below, side by side,
-              or touching corners. You may not use a letter cube multiple times
-              in a single word.
+              A word search is a word game that consists of the letters of
+              words placed in a grid, which usually has a rectangular or square
+              shape. The objective of this game is to find and mark all the
+              words hidden inside the box. The words may be placed horizontally,
+              vertically, or diagonally. Often a list of the hidden words is
+              provided, but more challenging puzzles may not provide a list.
+              Many word search puzzles have a theme to which all the hidden
+              words are related such as food, animals, or colors.
             </Typography>
           </div>
         </Paper>
@@ -53,8 +51,8 @@ const BoggleHowToPlay = () => (
                 <li>Duplicate letters are allowed in the board.</li>
                 <li>
                   Words are created by using adjoining letters in
-                  any direction, but a letter cube can only be used
-                  once per word.
+                  any direction, as long as that direction remains
+                  consistent throughout the word.
                 </li>
                 <li>Words must contain at least three letters.</li>
                 <li>
@@ -76,14 +74,13 @@ const BoggleHowToPlay = () => (
               We need to consider every cell as a starting character and
               find all words starting with it. This can be done using depth
               first traversal (DFS) and a trie for opptimization. We do DFS
-              starting from every cell and brach outwards to each of the
-              eight adjacent cells. We keep track of visited cells to make
-              sure that a cell is considered only once in a word. Once every
-              posible adjacent cell has been visited in our DFS, we know that
-              the combination of characters has reached its end. Our trie can
-              make this process quicker by eliminating paths that create
-              prefixes for words that do not exist. Valid words found along
-              the way will be recorded.
+              starting from every cell and branch outwards to each of the
+              eight adjacent cells, making sure to always travel in the same
+              direction. Once our DFS traversal reaches the edges of our game
+              board, we know that the possible combination of characters has
+              reached its end. Our trie can make this process quicker by
+              eliminating paths that create prefixes for words that do not
+              exist. Valid words found along the way will be recorded.
             </Typography>
           </div>
         </Paper>
@@ -92,4 +89,4 @@ const BoggleHowToPlay = () => (
   </div>
 );
 
-export default BoggleHowToPlay;
+export default WordSearchHowToPlay;
