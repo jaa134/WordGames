@@ -31,6 +31,17 @@ export const isValidGame = (puzzle) => (
     ))
 );
 
+const DIRS = [
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+  [0, -1],
+  [0, 1],
+  [1, -1],
+  [1, 0],
+  [1, 1]
+];
+
 export const getSolution = (wordList, puzzle) => {
   const puzzleGrid = getPuzzleGrid(puzzle);
   const numPuzzleRows = puzzleGrid.length;
@@ -45,33 +56,35 @@ export const getSolution = (wordList, puzzle) => {
     trie.add(word);
   });
 
-  // A recursive function to traverse 8 adjacent cells of puzzleGrid[i,j]
+  // A function to traverse all 8 directions starting from puzzleGrid[i,j]
   const foundWords = {};
-  const path = [];
-  const visited = Array.from(Array(numPuzzleRows), () => new Array(numPuzzleCols).fill(0));
-  const findWordsUtil = (currentWord, i, j) => {
-    path.push({ row: i, col: j });
-    visited[i][j] = true;
-    if (!(currentWord in foundWords) && trie.containsWord(currentWord)) {
-      foundWords[currentWord] = [...path];
-    }
-    for (let row = i - 1; row <= i + 1 && row < numPuzzleRows; row++) {
-      for (let col = j - 1; col <= j + 1 && col < numPuzzleCols; col++) {
-        if (row >= 0 && col >= 0 && !visited[row][col]) {
-          const nextWord = currentWord + puzzleGrid[row].arr[col];
-          if (trie.isValidPrefix(nextWord)) {
-            findWordsUtil(nextWord, row, col);
-          }
+  const findWordsUtil = (i, j) => {
+    DIRS.forEach(([rowDir, colDir]) => {
+      let row = i;
+      let col = j;
+      let word = '';
+      const path = [];
+      do {
+        word += puzzleGrid[row].arr[col];
+        path.push({ row, col });
+        if (!(word in foundWords) && trie.containsWord(word)) {
+          foundWords[word] = [...path];
         }
-      }
-    }
-    path.pop();
-    visited[i][j] = false;
+        row += rowDir;
+        col += colDir;
+      } while (
+        row >= 0
+        && col >= 0
+        && row < numPuzzleRows
+        && col < numPuzzleCols
+        && trie.isValidPrefix(word)
+      );
+    });
   };
 
   puzzleGrid.forEach((row, i) => {
-    row.arr.forEach((colLetter, j) => {
-      findWordsUtil(colLetter, i, j);
+    row.arr.forEach((_, j) => {
+      findWordsUtil(i, j);
     });
   });
 

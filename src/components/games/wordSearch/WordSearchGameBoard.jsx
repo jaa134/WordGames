@@ -10,9 +10,8 @@ import './WordSearchGameBoard.scss';
 const bem = defineBlock('WordSearchGameBoard');
 
 const CELL_SIZE = 24;
-const BORDER_SIZE = 2;
 const getPosition = (pos) => (
-  BORDER_SIZE + (CELL_SIZE / 2) + (pos * CELL_SIZE)
+  (CELL_SIZE / 2) + (pos * CELL_SIZE)
 );
 
 const WordSearchGameBoard = ({
