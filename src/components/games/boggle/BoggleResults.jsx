@@ -33,6 +33,11 @@ const BoggleResults = ({
 }) => {
   const [viewBy, setViewBy] = useState(views.ALPHA);
   const [viewPathFor, setViewPathFor] = useState(null);
+  const [previousPuzzle, setPreviousPuzzle] = useState(puzzle);
+  if (puzzle !== previousPuzzle) {
+    setPreviousPuzzle(puzzle);
+    setViewPathFor(null);
+  }
   const foundWordsList = Object.keys(foundWords);
   const displayValues = useMemo(() => {
     let result = sortBy(foundWordsList);
@@ -70,6 +75,7 @@ const BoggleResults = ({
           id={bem('answer-select')}
           options={foundWordsList.sort((a, b) => -b.localeCompare(a))}
           groupBy={(option) => option[0]}
+          value={viewPathFor}
           sx={{ width: 300 }}
           ListboxProps={{ style: { maxHeight: '15rem' } }}
           renderInput={(params) => (
