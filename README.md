@@ -1,4 +1,4 @@
-# TravelApp
+# WordGames
 A front end app for users to solve common word games.
 
 ## Technologies
